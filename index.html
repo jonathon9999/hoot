@@ -413,6 +413,115 @@ header{gap:0}
 .stage #sono{height:72px}
 .stage .sono-key{font-size:11px}
 
+/* leaves and twigs on obstructed photos */
+.part{overflow:hidden}
+.leafb{position:absolute;border-radius:60% 40% 60% 40%;background:#6f8a4c;box-shadow:0 0 0 1.5px #3b2f24 inset;background-image:linear-gradient(100deg,transparent 46%,rgba(59,47,36,.45) 47% 53%,transparent 54%)}
+.twig{position:absolute;left:-4%;width:108%;height:5%;background:#6e4a30;border-radius:4px;box-shadow:0 0 0 1.5px #3b2f24 inset}
+/* patience */
+.pat{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.pat[hidden]{display:none}
+.pat b{font-size:13px;letter-spacing:2px;color:var(--fg);font-weight:400;white-space:nowrap;overflow:hidden}
+.pat.warn b{color:#d4482a}
+.cost{font-style:normal;font-size:11px;opacity:.75;white-space:nowrap}
+.helpbtn{margin-left:auto;margin-right:8px;min-width:40px;border-radius:99px!important;border:1px solid var(--line);background:var(--surface);color:var(--fg);font-weight:800}
+.topbar .brand{flex:1}
+
+/* coach + help */
+#coach,#help{position:fixed;inset:0;z-index:195;display:flex;align-items:center;justify-content:center;background:rgba(10,14,20,.55);padding:16px}
+#coach[hidden],#help[hidden]{display:none}
+.coachbox{width:min(100%,420px);max-height:88vh;overflow:auto;background:var(--surface);color:var(--fg);border:2px solid var(--fg);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.coachbox h3{margin:0;font-size:22px;color:var(--accent)}
+.coachbox p{margin:0;font-size:16px;line-height:1.4}
+.coachbtns{display:flex;gap:8px;flex-wrap:wrap}
+.coachbtns .btn{flex:1 1 130px;min-height:46px}
+.coachbox ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.coachbox li{display:flex;flex-direction:column;gap:2px;font-size:15px;line-height:1.35}
+.coachbox li span{color:var(--muted)}
+.tabs button.hasdot{position:relative}
+.tabs button.hasdot::after{content:"";position:absolute;top:6px;right:calc(50% - 38px);width:11px;height:11px;border-radius:50%;background:#e0402a;border:2px solid var(--bg)}
+.helpbtn{min-height:32px!important;min-width:32px!important;width:32px;padding:0!important;font-size:15px!important;margin-right:6px}
+/* daily birds */
+.daily{display:flex;flex-direction:column;gap:6px}
+.dtop{display:flex;justify-content:space-between;align-items:baseline;font-size:14px}
+.dtop b{font-size:16px}.dtop span{color:var(--muted)}
+.drow{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:10px;align-items:center;padding:6px;border:2px solid var(--line);border-radius:12px;background:var(--surface);color:var(--fg);text-align:left;cursor:pointer;min-height:56px}
+.drow:disabled{opacity:.5;cursor:default}
+.drow.done{border-color:var(--accent)}
+.drow .dart{width:48px}
+.dtxt{display:flex;flex-direction:column;min-width:0}
+.dtxt em{font-style:normal;font-size:12px;color:var(--muted)}
+.dst{font-weight:800;font-size:13px;color:var(--accent)}
+.tipd{color:var(--accent)!important;font-weight:800}
+/* social overlay */
+#soc{position:fixed;inset:0;z-index:215;background:#efe2c6;overflow:auto;display:flex;justify-content:center;color:#2b2118;font-family:'IM Fell English',Georgia,serif}
+#soc[hidden]{display:none}
+.sframe{width:min(100%,560px);box-sizing:border-box;margin:10px;padding:12px 14px 28px;border:3px double #2b2118;align-self:flex-start;background:#efe2c6}
+#soc .btn{font-family:inherit;color:#2b2118;background:#e8d7ae;border:2px solid #2b2118;border-radius:4px;min-height:44px;font-size:17px;font-weight:400;cursor:pointer;padding:0 12px}
+#soc .btn.primary{background:#2b2118;color:#f7efdc}
+#soc .btn[disabled]{opacity:.4}
+.sback{display:flex!important;margin-left:auto;min-width:90px;justify-content:center}
+.sh{margin:6px 0 2px;text-align:center;font-weight:400;font-size:clamp(26px,7vw,34px);letter-spacing:2px}
+.sh3{margin:16px 0 6px;font-weight:400;font-size:21px;border-bottom:1px solid rgba(43,33,24,.5)}
+.ssub{margin:0;text-align:center;font-style:italic;font-size:17px}
+.staunt{margin:8px 0;text-align:center;font-style:italic;font-size:19px}
+.smsg{margin:8px 0;font-size:17px;line-height:1.35}
+.stabs{display:flex;gap:6px;margin:10px 0}
+.stabs button{flex:1;min-height:42px;font-family:inherit;font-size:16px;border:2px solid #2b2118;border-radius:4px;background:#efe2c6;color:#2b2118;cursor:pointer}
+.stabs button.on{background:#2b2118;color:#f7efdc}
+.slist{list-style:none;margin:0;padding:0}
+.slist li{display:grid;grid-template-columns:30px 1fr auto;gap:6px;align-items:baseline;padding:9px 4px;border-bottom:1px solid rgba(43,33,24,.35);cursor:pointer}
+.slist li.me{background:rgba(185,99,58,.18)}
+.slist .rk{text-align:right;opacity:.75;font-size:18px}
+.slist .nm{font-size:20px;min-width:0;overflow:hidden}
+.slist small{display:block;font-size:14px;font-style:italic;opacity:.8}
+.slist .tz{color:#7a3a1f;opacity:1}
+.slist .sc{font-size:21px}
+.snews{background:rgba(185,99,58,.18);border:1px dashed #2b2118;border-radius:4px;padding:6px 10px;margin:6px 0}
+.snews p{margin:2px 0;font-size:17px}
+.brag{margin-top:14px;display:flex;flex-direction:column;gap:6px}
+.brag label{font-size:15px;font-style:italic}
+.bragrow{display:flex;gap:8px}
+.bragrow input{flex:1;min-width:0;font:inherit;font-size:17px;padding:8px;border:2px solid #2b2118;border-radius:4px;background:#f7efdc;color:#2b2118}
+.dgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.dph{display:flex;flex-direction:column;gap:2px;align-items:center;text-align:center;font-size:15px}
+.dph.me .pol{outline:3px solid #b9633a}
+.dph .pol{width:100%}
+.vs{border:1px solid #2b2118;border-radius:4px;padding:8px 10px;margin:10px 0;background:#f7efdc}
+.vs p{margin:4px 0;font-size:17px}
+.sbtns{display:flex;gap:8px;flex-wrap:wrap}
+.sbtns .btn{flex:1 1 120px}
+.sgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.sb{display:flex;flex-direction:column;align-items:center;gap:1px;text-align:center;background:#f7efdc;border:1px solid #2b2118;border-radius:4px;padding:3px}
+.sb svg{width:100%;height:auto}
+.sb.unk svg{filter:brightness(0) opacity(.25)}
+.sb small{font-size:11px;line-height:1.1;min-height:1.1em}
+.sb .stars{font-size:10px}
+.plist{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.pline{font-family:inherit;font-size:16px;text-align:left;padding:8px 10px;border:1px solid #2b2118;border-radius:4px;background:#f7efdc;color:#2b2118;cursor:pointer;line-height:1.3}
+#smackTxt{width:100%;box-sizing:border-box;font:inherit;font-size:17px;padding:8px;border:2px solid #2b2118;border-radius:4px;background:#f7efdc;color:#2b2118;margin-bottom:8px}
+.pick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.pk{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px;font-family:inherit;border:2px solid #2b2118;border-radius:4px;background:#f7efdc;color:#2b2118;cursor:pointer;text-align:center}
+.pk.on{background:#e3c9a4;box-shadow:inset 0 0 0 2px #b9633a}
+.pk .dart{width:100%}
+.pk b{font-weight:400;font-size:14px;line-height:1.1}.pk small{font-size:12px;opacity:.8}
+.mail{border:1px solid #2b2118;border-radius:4px;background:#f7efdc;padding:8px 10px;margin:8px 0}
+.mail p{margin:0 0 4px;font-size:18px;line-height:1.35}.mail small{opacity:.7;font-size:13px}
+.mail .sbtns{margin-top:8px}
+.hintbox{border:2px dashed #7a3a1f;border-radius:4px;padding:8px 10px;margin:10px 0;background:#f7efdc;display:flex;flex-direction:column;gap:2px;font-size:17px}
+.hasmail{border-color:#e0402a!important}
+#mailN{font-size:11px;margin-left:3px;color:#e0402a}
+.sb.mys svg{filter:brightness(0) opacity(.8)}
+.sback{align-items:center}
+#soc .sh,#soc .sh3{color:#2b2118;font-family:inherit}
+.topbar .brand{flex-direction:column;align-items:flex-start;gap:0;flex:0 1 auto}
+.topbar .brand .cloud{font-size:11px;margin:0}
+.topbar{gap:6px}
+.score{min-width:0;margin-left:auto}
+.score span{text-align:right}
+.helpbtn{margin-left:0!important}
+.bragrow input{flex:1 1 auto;width:0;min-width:140px}
+.bragrow .btn{flex:0 0 84px}
+
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -491,6 +600,10 @@ header{gap:0}
   </div>
 </div>
 
+<div id="soc" hidden role="dialog" aria-modal="true" aria-label="Leaderbird"><div class="sframe"><button class="btn sback" id="socBack" type="button">Close</button><div id="socBody"></div></div></div>
+<div id="coach" hidden role="dialog" aria-modal="true" aria-labelledby="coachT"><div class="coachbox"><h3 id="coachT"></h3><p id="coachB"></p><div class="coachbtns"><button class="btn" id="coachGo" hidden></button><button class="btn primary" id="coachOk">Got it</button></div></div></div>
+<div id="help" hidden role="dialog" aria-modal="true" aria-label="How to play"><div class="coachbox helpbox"><h3>How to play</h3><ol id="helpList"></ol><div class="coachbtns"><button class="btn" id="helpAgain">Show the tips again</button><button class="btn primary" id="helpClose">Close</button></div></div></div>
+
 <div id="spec" hidden role="dialog" aria-modal="true" aria-label="Species page"><div class="spwrap" id="specBody"></div></div>
 
 <div id="lead" hidden role="dialog" aria-modal="true" aria-label="The Leaderbird">
@@ -507,6 +620,8 @@ header{gap:0}
   <header>
     <div class="topbar">
       <div class="brand"><h1 class="logo">HOOT!</h1><span class="cloud" id="cloudDot"></span></div>
+      <button class="small helpbtn" id="mailBtn" type="button" aria-label="Inbox">&#9993;<b id="mailN"></b></button>
+      <button class="small helpbtn" id="helpBtn" type="button" aria-label="How to play">?</button>
       <div class="score" aria-live="polite"><b id="score">0</b><span id="scoreSub">0 of 5 birds named</span></div>
     </div>
   </header>
@@ -523,6 +638,7 @@ header{gap:0}
     <div class="card" id="outPanel">
       <h3>Head out</h3>
       <div class="portrait"><div class="pico" id="outChar"></div><div><b id="outName">Dale</b><p class="muted">Ready to go.</p><button class="btn" id="chgChar">Change character</button></div></div>
+      <div id="dailyBox"></div>
       <div class="chips three" id="places"></div>
       <div>
         <h2>When do you go?</h2>
@@ -533,6 +649,7 @@ header{gap:0}
       </div>
       <p class="muted" id="gearLine"></p>
       <button class="btn primary block" id="goBtn">Head out</button>
+      <button class="btn block" id="lbBtn">Leaderbird</button>
       <button class="btn block" id="toTitle">Title screen</button>
     </div>
 
@@ -545,6 +662,7 @@ header{gap:0}
         </div>
         <div class="world"><svg id="world" viewBox="0 0 360 170" preserveAspectRatio="xMidYMid slice" role="img" aria-label="The trail, scrolling side to side"></svg></div>
         <div class="log" id="log" aria-live="polite"></div>
+        <div class="pat" id="patRow" hidden><span>Patience</span><b id="patPips" aria-live="polite"></b></div>
         <div id="meterBox" hidden>
           <div class="meter"><div class="fill" id="fill"></div><i class="tick" id="tickSnap"></i><i class="tick" id="tickName"></i></div>
           <div class="meter-row"><span id="mLeft">Closeness 0%</span><span id="mRight"></span></div>
@@ -560,10 +678,10 @@ header{gap:0}
           <button class="btn snap" id="bTry" hidden>Try calling it back</button>
         </div>
         <div class="actions" id="actCall" hidden>
-          <button class="btn" id="bAgain">Listen</button>
+          <button class="btn" id="bAgain">Listen <em class="cost" id="costAgain"></em></button>
           <button class="btn primary" id="bPlay">Play my call</button>
           <button class="btn snap" id="bSnap">Take the picture</button>
-          <button class="btn" id="bClose">Walk toward it</button>
+          <button class="btn" id="bClose">Walk toward it <em class="cost" id="costClose"></em></button>
           <button class="btn" id="bGive">Give up</button>
         </div>
       </div>
@@ -1456,12 +1574,14 @@ var DEF_GEAR = [
   { id:'mic',    name:'Parabolic Mic',        cost:900,   fx:{ hearMult:1.4 }, what:'Hear sounds from 40% farther away.' },
   { id:'lamp',   name:'Headlamp',             cost:350,   fx:{ nightLight:0.35 }, what:'Much better photos in the dark.' },
   { id:'poncho', name:'Rain Poncho',          cost:250,   fx:{ rainProof:1 },  what:'Drizzle and fog no longer shorten how far you can hear.' },
+  { id:'boots',  name:'Trail Boots',          cost:450,   fx:{ stride:1.35, stealth:0.5, pat:1 },  what:'Sturdier steps. Walk toward it covers 35% more ground and rustles half as much, and birds give you 1 extra try before they get fed up.' },
+  { id:'boots2', name:'Stalker Boots',        cost:1600,  fx:{ stride:1.7, stealth:0.25, pat:2 },  what:'Near silent. Walk toward it covers 70% more ground and rustles a quarter as much, and birds give you 2 extra tries.' },
   { id:'lens',   name:'Telephoto Lens',       cost:1200,  fx:{ qBonus:0.08 },  what:'Every photo comes out a little sharper.' }
 ];
 
 /* ---------- Economy: Birdbucks, levels, the shop ---------- */
-var GEAR_LVL = { guide:1, binoc:1, lamp:2, poncho:2, mk2:2, sono:2, sono2:3, sono3:5, lens:3, mic:3, mk3:4, scope:4, mythic:6 };
-var GEAR_NEED = { sono2:'sono', sono3:'sono2', mk3:'mk2', scope:'binoc', mythic:'scope' };
+var GEAR_LVL = { guide:1, binoc:1, lamp:2, poncho:2, mk2:2, sono:2, sono2:3, sono3:5, lens:3, boots:2, boots2:4, mic:3, mk3:4, scope:4, mythic:6 };
+var GEAR_NEED = { boots2:'boots', sono2:'sono', sono3:'sono2', mk3:'mk2', scope:'binoc', mythic:'scope' };
 [
   { k:'econ.priceMult',   label:'Photo price (× points × quality)', help:'A magazine pays this fraction of a bird’s points times your photo quality. 0.8 means a perfect Common (100 points) sells for 80.', def:0.8, step:0.05 },
   { k:'econ.repeatPay',   label:'Repeat-photo pay',          help:'The 2nd, 3rd… photo of the same species sells for this fraction of the price (the magazines already have one). 1 = no penalty.', def:0.3, step:0.05 },
@@ -1478,6 +1598,16 @@ var GEAR_NEED = { sono2:'sono', sono3:'sono2', mk3:'mk2', scope:'binoc', mythic:
   { k:'econ.lv5', label:'Level 5 at score', help:'Score needed.', def:3000, step:100 },
   { k:'econ.lv6', label:'Level 6 at score', help:'Score needed.', def:6000, step:100 }
 ].forEach(function(r){ r.g = 'Economy'; RULE_DEFS.push(r); });
+[
+  { k:'pat.Common',    label:'Patience: Common birds',    help:'How many failed tries a Common bird puts up with before it flies off.', def:8, step:1 },
+  { k:'pat.Uncommon',  label:'Patience: Uncommon birds',  help:'Same, for Uncommon birds.', def:7, step:1 },
+  { k:'pat.Rare',      label:'Patience: Rare birds',      help:'Same, for Rare birds.', def:5, step:1 },
+  { k:'pat.Legendary', label:'Patience: Legendary birds', help:'Same, for Legendary birds.', def:4, step:1 },
+  { k:'pat.failCost',  label:'Patience lost per bad call',help:'A call below the photo line costs this much patience.', def:1, step:0.25 },
+  { k:'pat.relisten',  label:'Patience lost per re-listen',help:'Listening again to a bird you are already working costs this much.', def:0.5, step:0.25 },
+  { k:'pat.step',      label:'Patience lost per step closer', help:'Walk toward it rustles the leaves. Boots multiply this down.', def:1, step:0.25 },
+  { k:'photo.clearAt', label:'Perfectly clear photo at',  help:'Closeness (0-1) at or above this gives an unobstructed photo. Below it, leaves and twigs cover more of the bird the further down you go.', def:0.95, step:0.01 }
+].forEach(function(r){ r.g = 'Patience and photos'; RULE_DEFS.push(r); });
 DEF_GEAR.forEach(function(g){
   RULE_DEFS.push({ k:'econ.cost.' + g.id, g:'Shop prices', label:g.name + ' price', help:'Birdbucks.', def:g.cost, step:25 });
   RULE_DEFS.push({ k:'econ.lvl.' + g.id, g:'Shop levels', label:g.name + ' unlocks at level', help:'Player level needed to buy it.', def:GEAR_LVL[g.id] || 1, step:1 });
@@ -1556,7 +1686,7 @@ function curBirder(){ return BR.list.filter(function(b){ return b.id === BR.cur;
 var SAVE_KEY = curBirder() ? curBirder().key : null;
 /* the birder whose save is actually in memory (BR.cur can change a moment before a switch reloads the page) */
 function loadedBirder(){ return BR.list.filter(function(b){ return b.key === SAVE_KEY; })[0] || null; }
-var SAVE = { rev:0, birder:'', equipped:{}, photos:[], known:{}, noises:{}, days:0, visits:0, char:null, best:{}, cash:0, sold:{}, board:[], lastLoc:'forest' };
+var SAVE = { rev:0, hints:{}, read:{}, taunt:'', daily:null, seen:null, tips:{}, sig:null, lvSeen:0, tb:0, birder:'', equipped:{}, photos:[], known:{}, noises:{}, days:0, visits:0, char:null, best:{}, cash:0, sold:{}, board:[], lastLoc:'forest' };
 var G = { loc:'forest', on:false, T:0, x:100, xu:100, face:1, cur:null, seed:1, pose:'idle', poseUntil:0, silent:{}, log:[], mode:'walk', fails:0, last:null, peek:0, startHour:6 };
 
 function clone(o){ return JSON.parse(JSON.stringify(o)); }
@@ -1657,11 +1787,14 @@ function weatherAt(T){
   return keys[0];
 }
 function gearFx(){
-  var fx = { machine:1, sono:0, nameDelta:0, spot:0, hearMult:1, nightLight:0, rainProof:0, qBonus:0 };
+  var fx = { stride:1, stealth:1, pat:0, machine:1, sono:0, nameDelta:0, spot:0, hearMult:1, nightLight:0, rainProof:0, qBonus:0 };
   DEF_GEAR.forEach(function(g){
     if(!SAVE.equipped[g.id]) return;
     var f = g.fx;
     if(f.machine) fx.machine = Math.max(fx.machine, f.machine);
+    if(f.stride) fx.stride = Math.max(fx.stride, f.stride);
+    if(f.stealth) fx.stealth = Math.min(fx.stealth, f.stealth);
+    if(f.pat) fx.pat = Math.max(fx.pat, f.pat);
     if(f.sono) fx.sono = Math.max(fx.sono, f.sono);
     if(f.nameDelta) fx.nameDelta += f.nameDelta;
     if(f.spot) fx.spot = Math.max(fx.spot, f.spot);
@@ -1826,7 +1959,7 @@ function spotCheck(){
   });
   if(found){
     found.start = G.T; found.end = G.T + RULES['hearing.soundMin'];
-    G.cur = found; G.mode = 'walk'; G.fails = 0; G.peek = RULES['photo.snapFloor'];
+    startPatience(found); G.cur = found; G.mode = 'walk'; G.fails = 0; G.peek = RULES['photo.snapFloor'];
     say('Movement in a bush up ahead! Something is peeking out at you.');
     if(typeof playEvent === 'function') playEvent(found);
   }
@@ -1835,6 +1968,7 @@ function doListen(){
   setPose('listen', 2800);
   advance(RULES['time.listenMin']);
   if(G.cur){
+    if(spendPatience(RULES['pat.relisten'])) return;
     say('You hold still. Still going: ' + soundWords(G.cur) + '. It is ' + whereWords(G.cur) + '.');
     if(typeof playEvent === 'function') playEvent(G.cur);
     return;
@@ -1842,7 +1976,7 @@ function doListen(){
   var ev = pickEvent();
   if(ev.kind === 'quiet'){ say('You listen. ' + locById(G.loc).quiet); return; }
   ev.start = G.T; ev.end = G.T + RULES['hearing.soundMin']; ev.seen = false;
-  G.cur = ev; G.fails = 0; G.peek = 0; G.mode = 'walk';
+  startPatience(ev); G.cur = ev; G.fails = 0; G.peek = 0; G.mode = 'walk';
   say('You hear ' + soundWords(ev) + ', ' + whereWords(ev) + '.');
   if(typeof playEvent === 'function') playEvent(ev);
 }
@@ -1858,15 +1992,42 @@ function revealNoise(){
   SAVE.noises[n.id] = true; saveGame();
   G.cur = null; G.mode = 'walk'; G.peek = 0; G.fails = 0;
 }
+function stepCost(){ return RULES['pat.step'] * gearFx().stealth; }
 function doCloseIn(){
   if(!G.cur) return;
   advance(RULES['time.walkMin'] / 3);
   if(!G.cur) return;
-  var d = dxTo(G.x, G.cur.x), step = Math.min(Math.abs(d), RULES['hearing.closeIn']);
+  var fx = gearFx(), d = dxTo(G.x, G.cur.x), step = Math.min(Math.abs(d), RULES['hearing.closeIn'] * fx.stride);
   G.xu += (d >= 0 ? 1 : -1) * step; G.x = wrapX(G.xu); G.face = d >= 0 ? 1 : -1;
-  say(distTo(G.cur) < RULES['hearing.nearPx'] ? 'You creep right up close.' : 'You creep closer.');
+  var close = distTo(G.cur) < RULES['hearing.nearPx'];
+  say(close ? 'You creep right up close. No more distance penalty.' : 'You creep closer, about ' + Math.round(distTo(G.cur)) + ' px to go.');
   if(G.last && G.cur.kind === 'bird') G.last = scoreCall(G.last.vals);
   if(G.last) G.peek = G.last.eff;
+  if(G.cur && G.cur.kind === 'bird' && step > 1) spendPatience(stepCost());
+}
+/* ---- patience: every bird only puts up with so much ---- */
+function startPatience(ev){
+  if(!ev || ev.kind !== 'bird') return;
+  var b = birdById(ev.id); ev.patMax = Math.max(2, (RULES['pat.' + b.rarity] || 6) + gearFx().pat); ev.pat = ev.patMax;
+}
+function spendPatience(c){
+  var ev = G.cur; if(!ev || ev.kind !== 'bird' || ev.pat === undefined || !(c > 0)) return false;
+  ev.pat = Math.max(0, ev.pat - c);
+  if(ev.pat > 0.001) return false;
+  var b = birdById(ev.id);
+  say(b.name + ' has had enough. Fwip! It bolts.');
+  G.silent[b.id] = G.T + RULES['photo.quietMin'];
+  G.leaving = { id:ev.id, x:ev.x, eff:Math.max(0.3, G.last ? G.last.eff : 0.3), until:Date.now() + 2200 };
+  setTimeout(function(){ G.leaving = null; if(G.on && typeof updateWorld === 'function') updateWorld(); }, 2300);
+  G.cur = null; G.mode = 'walk'; G.peek = 0; G.fails = 0; G.last = null;
+  if(typeof coach === 'function') coach('spooked');
+  return true;
+}
+/* how much of the bird the leaves cover: nothing at the clear line, more and more below it */
+function obstruct(eff){
+  var c = RULES['photo.clearAt'];
+  if(eff >= c) return 0;
+  return clamp(0.06 + (c - eff) * 1.7, 0.06, 0.8);
 }
 
 /* ---- calling back ---- */
@@ -1911,13 +2072,14 @@ function doCall(vals){
   if(!bb || G.last.raw > bb.raw){ SAVE.best[ev.id] = { raw:G.last.raw, vals:clone(vals) }; saveGame(); }
   G.react = G.last.eff >= RULES['photo.snapAt'] ? 'hop' : G.last.eff >= 0.35 ? 'cock' : 'shake';
   say(ladder(G.last.eff));
+  if(G.last.eff < RULES['photo.snapAt']) spendPatience(RULES['pat.failCost']);
 }
 function canSnap(){ return !!(G.cur && G.cur.kind === 'bird' && G.last && G.last.eff >= RULES['photo.snapAt']); }
 function doSnap(){
   if(!canSnap()) return null;
   var ev = G.cur, b = birdById(ev.id), fx = gearFx();
   advance(RULES['time.snapMin']);
-  var q = clamp(G.last.eff * lightFactor(G.T) + fx.qBonus, 0.05, 1);
+  var q = clamp((1 - obstruct(G.last.eff)) * lightFactor(G.T) + fx.qBonus, 0.05, 1);
   var clear = G.last.eff >= RULES['photo.nameAt'] - fx.nameDelta || q >= RULES['photo.nameQ'];
   var wasKnown = !!SAVE.known[b.id];
   if(clear) SAVE.known[b.id] = true;
@@ -1930,13 +2092,14 @@ function doSnap(){
   else say('Click! You got a picture, but the view was too fuzzy to tell what it is. Quality ' + starsOf(q) + ' of 5. A closer call would show you the name.');
   if(RULES['photo.spooks']) G.silent[b.id] = G.T + RULES['photo.quietMin'];
   G.cur = null; G.mode = 'walk'; G.peek = 0; G.fails = 0; G.last = null;
+  if(typeof dailyRecord === 'function') dailyRecord(photo);
   saveGame();
   return photo;
 }
 
 /* the clock keeps moving while you stand around */
 function tickClock(){
-  if(!G.on) return;
+  if(!G.on || document.body.classList.contains('coaching')) return;
   advance(RULES['time.rate']);
   if(typeof refresh === 'function') refresh(true);
 }
@@ -3091,6 +3254,7 @@ function openSpecies(id){
     h += '<h2 class="spname">' + (ph.length ? 'Mystery bird' : 'Not photographed yet') + '</h2>';
     h += '<div class="spart"><svg viewBox="0 0 200 200" style="' + birdVars(b.colors) + '">' + (best ? '' : '') + '</svg>' + (best ? '<div class="spartp">' + partialView(b, best.eff, best.id) + '</div>' : '<div class="spq">?</div>') + '</div>';
     h += '<p class="spnote">' + (ph.length ? 'You only caught a partial view. Match its call a little closer to learn its name and fill in this page.' : 'Somewhere in ' + esc(L.name) + ' there is a bird you have not heard yet. Keep walking and listening.') + '</p>';
+    h += '<p class="spnote">' + esc(teaser(b)) + '</p>' + hintHtml(id);
   } else {
     h += '<h2 class="spname">' + esc(b.name) + '</h2><p class="splat">' + esc(b.latin) + '</p>';
     h += '<div class="spart"><svg viewBox="0 0 200 200" style="' + birdVars(b.colors) + '">' + birdArt(b) + '</svg></div>';
@@ -3113,6 +3277,460 @@ function openSpecies(id){
 }
 function closeSpecies(){ $('spec').hidden = true; document.body.classList.remove('titled'); }
 
+/* ---------- coaching: first-time tips, New dots on tabs, level-up and unlock highlights, the ? help sheet ---------- */
+var TIPS = {
+  welcome:{ t:'Welcome, birder!', b:'Your job: find birds by sound, call them back, and photograph them. Pick a place and a time, then Head out. Birds sing at their own hours: dawn and dusk are busy, midday is quiet.' },
+  walking:{ t:'Out on the trail', b:'Walk a bit moves you along. Listen stands still and waits for a sound. The clock keeps ticking while you stand around, so do not dawdle.' },
+  sound:{ t:'You heard something!', b:'Tap Try calling it back to answer it on your call machine. If it sounds far off, Walk toward it first: closer birds are easier to match.' },
+  machine:{ t:'The call machine', b:'Set the knobs to match what you heard, then tap Play my call. The bar shows how close you are. Past the first tick the bird shows itself and you can take its picture. Past the second tick you learn its name. Tap Listen to hear it again.' },
+  clear95:{ t:'Clear photos', b:'A photo is only perfectly clear at 95% closeness. Below that, leaves and twigs cover part of the bird, more the further off your call was. Sharper photos earn more and win bragging rights.' },
+  patience:{ t:'Patience', b:'Birds do not wait forever. Every wrong answer, re-listen and rustling step uses up a little of the bird’s patience (the dots). At zero it flies off. Trail Boots in the Shop make you quieter and stretch the dots.', go:{ label:'Open the Shop', tab:'shp' } },
+  spooked:{ t:'It flew off!', b:'That bird ran out of patience and went quiet for a while. Try another sound, or come back later. Next time, match its call in fewer tries, and step closer quietly.' },
+  photo:{ t:'Nice shot!', b:'Your photo is saved in the Album. To sell photos, tap Head home, then open the Shop and use the Magazine desk.', go:{ label:'See the Album', tab:'alb' } },
+  sell:{ t:'Time to sell', b:'You have photos to sell. In the Shop, tap Sell all photos. Birdbucks buy gear: better call machines, boots, binoculars and more.', go:{ label:'Open the Shop', tab:'shp' } },
+  afford:{ t:'You can buy something', b:'You have enough Birdbucks for new gear. Check the Gear shop for what fits your level.', go:{ label:'Open the Shop', tab:'shp' } },
+  daily:{ t:'Birds of the day', b:'Each place has a bird of the day, the same for every birder. Photograph it clearly for bonus cash and a streak, and the best photos of the day go on the Leaderbird. Tap a place to set up your trip.' },
+  social:{ t:'The Leaderbird', b:'Tap any birder to see their birds, compare your photos, send smack talk, or trade tips about birds you have not found yet.' },
+  mail:{ t:'You have mail', b:'Somebody sent you something. Tap the envelope at the top to read it.' },
+  tipped:{ t:'Tip added', b:'Check the Album: that mystery bird now shows where and when to find it and what it sounds like.', go:{ label:'Open the Album', tab:'alb' } },
+  named:{ t:'A new bird, named!', b:'Named birds go in the Album and score points. Tap any bird there for its field guide page: voice, habits, where and when to find it.', go:{ label:'Open the Album', tab:'alb' } }
+};
+var coachQ = [], coachShowing = null;
+var coachCool = 0;
+/* one tip at a time, with a breather between them; a tip that has to wait is simply offered again a moment later */
+function coachBusy(){ return !!coachShowing || coachQ.length > 0 || Date.now() < coachCool; }
+function coachDyn(id, t, b, go){
+  if(!SAVE || !SAVE.tips || SAVE.tips[id] || coachBusy()) return;
+  SAVE.tips[id] = 1; coachQ.push({ t:t, b:b, go:go }); saveGame(); coachPump();
+}
+function coach(id){
+  var tip = TIPS[id]; if(!tip || !SAVE.tips || SAVE.tips[id] || coachBusy()) return;
+  SAVE.tips[id] = 1; coachQ.push(tip); saveGame(); coachPump();
+}
+function coachPump(){
+  if(coachShowing || !coachQ.length) return;
+  if(document.body.classList.contains('titled') || !$('soc').hidden) return;
+  var tip = coachQ.shift(); coachShowing = tip;
+  $('coachT').textContent = tip.t; $('coachB').textContent = tip.b;
+  var go = $('coachGo'); go.hidden = !tip.go; if(tip.go) go.textContent = tip.go.label;
+  $('coach').hidden = false; document.body.classList.add('coaching'); $('coachOk').focus();
+}
+function coachClose(goTab){
+  var tip = coachShowing; coachShowing = null; coachCool = Date.now() + 8000; $('coach').hidden = true; document.body.classList.remove('coaching');
+  if(goTab && tip && tip.go) setTab(tip.go.tab);
+  setTimeout(coachPump, 250);
+}
+function shopNow(){ var ok = DEF_GEAR.filter(function(g){ return gearStatus(g) === 'ok'; }).map(function(g){ return g.id; }); return { ok:ok, un:SAVE.photos.filter(function(p){ return !p.sold; }).length, lv:levelInfo().lv }; }
+function albNow(){ return { k:Object.keys(SAVE.known).length, p:SAVE.photos.length }; }
+function updateDots(){
+  var s = shopNow(), a = albNow(), sg = SAVE.sig;
+  /* quietly forget things that went away (bought, sold) so only genuinely new things light a dot */
+  sg.shp.ok = sg.shp.ok.filter(function(id){ return s.ok.indexOf(id) >= 0; }); sg.shp.un = Math.min(sg.shp.un, s.un);
+  sg.alb.k = Math.min(sg.alb.k, a.k); sg.alb.p = Math.min(sg.alb.p, a.p);
+  var sel = function(t){ return $('t-' + t).getAttribute('aria-selected') === 'true'; };
+  if(sel('shp')) sg.shp = s; if(sel('alb')) sg.alb = a;
+  var shpNew = s.ok.some(function(id){ return sg.shp.ok.indexOf(id) < 0; }) || s.un > sg.shp.un || s.lv > sg.shp.lv;
+  var albNew = a.k > sg.alb.k || a.p > sg.alb.p;
+  $('t-shp').classList.toggle('hasdot', shpNew); $('t-alb').classList.toggle('hasdot', albNew);
+}
+function coachBaseline(){
+  var vet = SAVE.photos.length > 0 || SAVE.days > 1;
+  if(vet) ['welcome', 'walking', 'sound', 'machine', 'photo', 'sell', 'named'].forEach(function(k){ SAVE.tips[k] = 1; });
+  SAVE.lvSeen = levelInfo().lv;
+  Object.keys(SAVE.equipped).forEach(function(id){ SAVE.tips['g_' + id] = 1; });
+  SAVE.sig = { shp:shopNow(), alb:albNow() };
+  SAVE.tb = 1; saveGame();
+}
+function coachTick(){
+  if(!SAVE_KEY || !SAVE.tips || document.body.classList.contains('titled')) return;
+  coachPump();
+  if(!SAVE.tb) coachBaseline();
+  if(!SAVE.sig) SAVE.sig = { shp:shopNow(), alb:albNow() };
+  updateDots();
+  if(coachShowing) return;
+  var cur = G.on ? G.cur : null, li = levelInfo();
+  /* level-ups, with what they unlock */
+  for(var lv = (SAVE.lvSeen || 1) + 1; lv <= li.lv; lv++){
+    var gear = DEF_GEAR.filter(function(g){ return gearLvl(g) === lv; }).map(function(g){ return g.name; });
+    var places = LOCS.filter(function(L){ return locUnlock(L) === lv; }).map(function(L){ return L.name; });
+    var b = 'You are now a ' + LV_NAMES[lv - 1] + '.' + (places.length ? ' New place to bird: ' + places.join(', ') + '.' : '') + (gear.length ? ' New in the Gear shop: ' + gear.join(', ') + '.' : '');
+    if(coachBusy()) break;
+    SAVE.lvSeen = lv; coachDyn('lv' + lv, 'Level ' + lv + '!', b, gear.length ? { label:'Open the Shop', tab:'shp' } : null);
+  }
+  /* new gear you own: what it does */
+  DEF_GEAR.forEach(function(g){ if(SAVE.equipped[g.id] && !SAVE.tips['g_' + g.id]) coachDyn('g_' + g.id, g.name + ' equipped', g.what); });
+  if(!G.on){
+    if(!SAVE.tips.welcome && !SAVE.photos.length) coach('welcome');
+    else if(SAVE.photos.some(function(p){ return !p.sold; })) coach('sell');
+    else if(DEF_GEAR.some(function(g){ return gearStatus(g) === 'ok'; })) coach('afford');
+    else if(SAVE.tips.welcome || SAVE.photos.length) coach('daily');
+    return;
+  }
+  coach('walking');
+  if(cur && cur.kind === 'bird'){
+    coach('sound');
+    if(G.mode === 'call') coach('machine');
+    if(typeof canSnap === 'function' && canSnap()) coach('clear95');
+    if(cur.pat !== undefined && cur.pat <= 2.001) coach('patience');
+  }
+  if(SAVE.photos.length) coach('photo');
+  if(Object.keys(SAVE.known).length) coach('named');
+}
+var HELP_STEPS = [
+  ['Head out', 'Pick a place and a time of day. Dawn and dusk are busy. Midday is quiet. Night has owls.'],
+  ['Walk and Listen', 'Walk a bit moves you along. Listen waits for a sound. Some birds peek out if you have binoculars.'],
+  ['Call it back', 'Tap Try calling it back. Set the knobs to match what you heard, then Play my call. The bar fills as you get closer.'],
+  ['Mind the patience dots', 'Wrong answers, re-listens and noisy steps use up a bird’s patience. At zero it flies off.'],
+  ['Walk toward it', 'Closer birds are easier to match and the distance penalty goes away. Boots make it quieter and cover more ground.'],
+  ['Take the picture', 'A photo is perfectly clear only at 95% closeness. Leaves and twigs cover the bird below that.'],
+  ['Head home and sell', 'Sell photos at the Shop’s Magazine desk. Spend Birdbucks on gear, and level up to unlock new places.']
+];
+function openHelp(){
+  $('helpList').innerHTML = HELP_STEPS.map(function(s, i){ return '<li><b>' + (i + 1) + '. ' + s[0] + '</b><span>' + s[1] + '</span></li>'; }).join('');
+  $('help').hidden = false; document.body.classList.add('coaching'); $('helpClose').focus({ preventScroll:true }); $('help').querySelector('.coachbox').scrollTop = 0;
+}
+function closeHelp(){ $('help').hidden = true; if(!coachShowing) document.body.classList.remove('coaching'); }
+function wireCoach(){
+  $('coachOk').addEventListener('click', function(){ coachClose(false); });
+  $('coachGo').addEventListener('click', function(){ coachClose(true); });
+  $('helpBtn').addEventListener('click', openHelp);
+  $('helpClose').addEventListener('click', closeHelp);
+  $('helpAgain').addEventListener('click', function(){ Object.keys(TIPS).forEach(function(k){ delete SAVE.tips[k]; }); saveGame(); closeHelp(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ if(!$('help').hidden) closeHelp(); else if(coachShowing) coachClose(false); } });
+  setInterval(coachTick, 700);
+}
+
+/* ---------- Daily Birds, Leaderbird with profiles, smack talk, inbox, tips and trades ---------- */
+
+/* ---- daily birds: every place has a bird of the day, the same for everybody ---- */
+function todayKey(){ return new Date(Date.now() - 8 * 3600000).toISOString().slice(0, 10); }
+function dayBefore(k){ return new Date(Date.parse(k + 'T12:00:00Z') - 86400000).toISOString().slice(0, 10); }
+function dailyFor(loc, key){
+  key = key || todayKey();
+  var pool = ROSTER.filter(function(b){ return b.loc === loc && (b.rarity === 'Uncommon' || b.rarity === 'Rare'); });
+  if(!pool.length) pool = birdsAt(loc);
+  return pool[hashStr('hoot-daily:' + key + ':' + loc) % pool.length];
+}
+function dailyState(){ if(!SAVE.daily) SAVE.daily = { streak:0, last:'', best:{} }; return SAVE.daily; }
+function dailyRecord(p){
+  var key = todayKey(), db = dailyFor(p.loc, key); if(!db || db.id !== p.bird || !p.clear) return;
+  var D = dailyState(), k = key + ':' + p.loc, cur = D.best[k];
+  if(cur && cur.q >= p.q) return;
+  D.best[k] = { q:p.q, eff:p.eff, sent:false };
+  Object.keys(D.best).forEach(function(x){ if(x.slice(0, 10) < dayBefore(dayBefore(key))) delete D.best[x]; });
+  if(D.last !== key){
+    D.streak = D.last === dayBefore(key) ? D.streak + 1 : 1; D.last = key;
+    var bonus = 100 + 40 * Math.min(D.streak, 10); SAVE.cash += bonus;
+    say('Bird of the day! Bonus $' + bonus + '. Streak: ' + D.streak + (D.streak === 1 ? ' day' : ' days') + '.');
+  } else say('A better shot of the bird of the day. Your best for today is updated.');
+  if(typeof cloudSoon === 'function') cloudSoon();
+}
+function todWord(spec){
+  var a = parseFloat(String(spec).split(',')[0].split('-')[0]);
+  return a >= 19 || a < 4 ? 'after dark' : a < 9 ? 'around dawn' : a < 16 ? 'in daylight' : 'toward dusk';
+}
+function teaser(b){
+  var L = locById(b.loc), tb = TB.birds[b.id] || {};
+  return 'Calls ' + todWord(tb.hours || '0-24') + ' in ' + L.name + '. ' + ({ Common:'Easy to hear.', Uncommon:'Takes patience.', Rare:'Elusive.', Legendary:'Almost a myth.' }[b.rarity] || '');
+}
+function birdSpot(b){
+  var tb = TB.birds[b.id] || {}, lm = null, ld = 1e9;
+  TB.lm.forEach(function(l){ if((l.loc || 'forest') !== b.loc) return; var d = Math.abs(dxTo(l.x, tb.anchor || 0)); if(d < ld){ ld = d; lm = l; } });
+  return lm ? lm.name : null;
+}
+function hintHtml(id){
+  var h = SAVE.hints && SAVE.hints[id], b = birdById(id); if(!h || !b) return '';
+  var tb = TB.birds[id] || {}, spot = birdSpot(b);
+  return '<div class="hintbox"><b>Tip from ' + esc(h.from) + '</b><span>Found in ' + esc(locById(b.loc).name) + (spot ? ', usually around ' + esc(spot) : '') + '. ' + b.rarity + '.</span><span>Calls at ' + esc(hoursLine(tb.hours || '0-24')) + '.</span><span>It sounds like ' + esc(describe(b.v)) + '.</span></div>';
+}
+function buildDaily(){
+  var host = $('dailyBox'); if(!host) return;
+  var key = todayKey(), D = dailyState(), lv = levelInfo().lv, h = '', done = 0;
+  var streakOn = D.last === key || D.last === dayBefore(key) ? D.streak : 0;
+  h += '<div class="daily"><div class="dtop"><b>Birds of the day</b><span>' + (streakOn ? 'Streak: ' + streakOn + (streakOn === 1 ? ' day' : ' days') : 'No streak yet') + '</span></div>';
+  LOCS.forEach(function(L){
+    var b = dailyFor(L.id, key), ok = locUnlock(L) <= lv, e = D.best[key + ':' + L.id], known = !!SAVE.known[b.id];
+    if(e) done++;
+    h += '<button class="drow' + (e ? ' done' : '') + '" data-loc="' + L.id + '"' + (ok ? '' : ' disabled') + '>' +
+      '<span class="dart' + (known ? '' : ' unk') + '"><svg viewBox="0 0 200 200" style="' + birdVars(b.colors) + '">' + birdArt(b) + '</svg></span>' +
+      '<span class="dtxt"><b>' + esc(L.name) + '</b><em>' + (known ? esc(b.name) : 'Mystery bird') + ' · calls ' + todWord((TB.birds[b.id] || {}).hours || '0-24') + '</em></span>' +
+      '<span class="dst">' + (!ok ? 'Level ' + locUnlock(L) : e ? starHtml(e.q) : 'Go') + '</span></button>';
+  });
+  h += '<p class="hint" id="dailyMsg">Photograph a place&rsquo;s bird of the day, clearly, for bonus cash and a streak. Best photo of the day goes on the Leaderbird.</p>';
+  if(done) h += '<button class="btn" id="dailyShare">Share today&rsquo;s result</button>';
+  h += '</div>';
+  host.innerHTML = h;
+}
+function dailyGo(loc){
+  var b = dailyFor(loc), tb = TB.birds[b.id] || {}, a = parseFloat(String(tb.hours || '6').split(',')[0].split('-')[0]);
+  pickLoc = loc; buildPlaces(); setPick(isNaN(a) ? 6 : a);
+  $('dailyMsg').textContent = 'Set for ' + locById(loc).name + ' at ' + hourText(pickHour) + '. Tap Head out when you are ready.';
+}
+function dailyShareText(){
+  var key = todayKey(), D = dailyState(), parts = [];
+  LOCS.forEach(function(L){ var e = D.best[key + ':' + L.id]; if(e) parts.push(L.name + ' ' + starsTxt(e.q)); });
+  return 'HOOT! Bird of the day ' + key + '\n' + parts.join('\n') + '\nStreak: ' + (D.streak || 0) + (D.streak === 1 ? ' day' : ' days');
+}
+function starsTxt(q){ var n = starsOf(q); return new Array(n + 1).join('★') + new Array(6 - n).join('☆'); }
+
+/* ---- the social overlay: Leaderbird, profiles, smack talk, trades, inbox ---- */
+var SOC = { stack:[], board:null, daily:null, mail:[] };
+function myBirder(){ var b = loadedBirder(); return b && b.cloud ? b : null; }
+function rel(ts){ var m = Math.round((Date.now() - ts) / 60000); return m < 2 ? 'just now' : m < 90 ? m + ' min ago' : m < 2000 ? Math.round(m / 60) + ' hours ago' : Math.round(m / 1440) + ' days ago'; }
+function openSocial(view, arg){
+  $('soc').hidden = false; document.body.classList.add('coaching'); SOC.stack = [];
+  socGo(view || 'lead', arg); coach('social');
+}
+function closeSocial(){ $('soc').hidden = true; if(!coachShowing && $('help').hidden) document.body.classList.remove('coaching'); }
+function socGo(view, arg){ SOC.stack.push({ v:view, a:arg }); socRender(); }
+function socBack(){ if(SOC.stack.length > 1){ SOC.stack.pop(); socRender(); } else closeSocial(); }
+function socRender(){
+  var s = SOC.stack[SOC.stack.length - 1], el = $('socBody');
+  $('socBack').textContent = SOC.stack.length > 1 ? 'Back' : 'Close';
+  el.scrollTop = 0; $('soc').scrollTop = 0;
+  if(s.v === 'lead') viewLead(s.a);
+  else if(s.v === 'profile') viewProfile(s.a);
+  else if(s.v === 'smack') viewSmack(s.a);
+  else if(s.v === 'trade') viewTrade(s.a);
+  else if(s.v === 'inbox') viewInbox();
+}
+function needCloud(el){
+  if(!cloudOn()){ el.innerHTML = '<h2 class="sh">Leaderbird</h2><p class="smsg">Cloud saves are not switched on yet.</p>'; return true; }
+  if(!myBirder()){ el.innerHTML = '<h2 class="sh">Leaderbird</h2><p class="smsg">Sign in to a cloud birder (name and PIN) to use the Leaderbird, smack talk, tips and trades.</p>'; return true; }
+  return false;
+}
+function loadBoard(){
+  return Promise.all([cget('leader'), cget('daily/' + todayKey())]).then(function(r){
+    var rows = Object.keys(r[0] || {}).map(function(k){ var x = r[0][k]; x.k = k; x.known = x.known || []; x.best = x.best || {}; return x; }).sort(function(a, b){ return (b.score || 0) - (a.score || 0); });
+    SOC.board = rows; SOC.daily = r[1] || {};
+    return rows;
+  });
+}
+function rowBySlug(k){ return (SOC.board || []).filter(function(r){ return r.k === k; })[0]; }
+function myRow(){ var m = myBirder(); return m ? rowBySlug(m.slug) : null; }
+function rankOf(k){ var i = (SOC.board || []).findIndex(function(r){ return r.k === k; }); return i < 0 ? 0 : i + 1; }
+
+/* auto smack talk for a row, from where it sits next to you */
+function autoLine(r, mineRow){
+  if(!mineRow || r.k === mineRow.k) return '';
+  var d = (r.score || 0) - (mineRow.score || 0);
+  if(r.taunt) return '“' + r.taunt + '”';
+  if(d > 0) return d + ' points ahead of you. Just saying.';
+  if(d < 0) return 'You are ' + (-d) + ' points ahead. Do not get comfortable.';
+  return 'Dead level with you. Awkward.';
+}
+function viewLead(tab){
+  var el = $('socBody'); if(needCloud(el)) return;
+  tab = tab || 'all';
+  el.innerHTML = '<h2 class="sh">The Leaderbird</h2><p class="smsg">Fetching the flock…</p>';
+  loadBoard().then(function(rows){
+    var mr = myRow(), m = myBirder(), h = '';
+    h += '<h2 class="sh">The Leaderbird</h2>';
+    h += '<div class="stabs"><button class="' + (tab === 'all' ? 'on' : '') + '" data-t="all">Overall</button><button class="' + (tab === 'day' ? 'on' : '') + '" data-t="day">Today&rsquo;s birds</button><button data-t="inbox">Inbox' + (unreadCount() ? ' (' + unreadCount() + ')' : '') + '</button></div>';
+    if(tab === 'all'){
+      /* what changed since you last looked */
+      var news = [], seen = SAVE.seen || {};
+      if(mr && SAVE.seen){
+        rows.forEach(function(r){
+          if(r.k === mr.k) return;
+          var was = seen[r.k], my0 = seen[mr.k];
+          if(was !== undefined && my0 !== undefined){
+            if(was > my0 && (r.score || 0) < (mr.score || 0)) news.push('You passed ' + r.name + '!');
+            else if(was < my0 && (r.score || 0) > (mr.score || 0)) news.push(r.name + ' passed you.');
+            else if((r.score || 0) - was >= 100) news.push(r.name + ' is up ' + ((r.score || 0) - was) + ' points.');
+          }
+        });
+      }
+      var snap = {}; rows.forEach(function(r){ snap[r.k] = r.score || 0; }); SAVE.seen = snap;
+      if(news.length) h += '<div class="snews">' + news.slice(0, 4).map(function(t){ return '<p>' + esc(t) + '</p>'; }).join('') + '</div>';
+      h += '<ol class="slist">' + rows.map(function(r, i){
+        return '<li class="' + (m && m.slug === r.k ? 'me' : '') + '" data-k="' + esc(r.k) + '"><span class="rk">' + (i + 1) + '</span><span class="nm">' + esc(r.name) +
+          '<small>' + (r.named || 0) + ' named · ' + esc(LV_NAMES[(r.lv || 1) - 1] || '') + (r.streak && (r.dlast === todayKey() || r.dlast === dayBefore(todayKey())) ? ' · streak ' + r.streak : '') + '</small>' +
+          '<small class="tz">' + esc(autoLine(r, mr)) + '</small></span><span class="sc">' + (r.score || 0) + '</span></li>';
+      }).join('') + '</ol>';
+      h += '<div class="brag"><label for="tauntIn">Your brag line (others see it under your name)</label><div class="bragrow"><input id="tauntIn" maxlength="60" value="' + esc(SAVE.taunt || '') + '" placeholder="e.g. I name birds before breakfast"><button class="btn" id="tauntSave">Save</button></div></div>';
+    } else {
+      LOCS.forEach(function(L){
+        var b = dailyFor(L.id), ent = (SOC.daily[L.id] || {}), list = Object.keys(ent).map(function(k){ var x = ent[k]; x.k = k; return x; }).sort(function(a, c){ return c.q - a.q; });
+        h += '<h3 class="sh3">' + esc(L.name) + ': ' + (SAVE.known[b.id] ? esc(b.name) : 'Mystery bird') + '</h3>';
+        if(!list.length) h += '<p class="smsg">Nobody has a clear photo yet today. Be the first.</p>';
+        else h += '<div class="dgrid">' + list.map(function(x, i){
+          return '<div class="dph' + (m && x.k === m.slug ? ' me' : '') + '"><div class="pol"><div class="pic">' + partialView(b, x.eff, x.k + todayKey()) + '</div></div><b>' + (i + 1) + '. ' + esc(x.name) + '</b>' + starHtml(x.q) + '</div>';
+        }).join('') + '</div>';
+      });
+    }
+    el.innerHTML = h;
+    saveGame();
+  }).catch(function(){ el.innerHTML = '<h2 class="sh">The Leaderbird</h2><p class="smsg">Could not reach the Leaderbird. Check your connection.</p>'; });
+}
+function viewProfile(k){
+  var el = $('socBody'), r = rowBySlug(k), mr = myRow(); if(!r){ el.innerHTML = '<p class="smsg">That birder is not on the board.</p>'; return; }
+  var mine = SAVE.known, theirs = {}; r.known.forEach(function(id){ theirs[id] = 1; });
+  var iHave = ROSTER.filter(function(b){ return mine[b.id] && !theirs[b.id]; }), theyHave = ROSTER.filter(function(b){ return !mine[b.id] && theirs[b.id]; });
+  var win = 0, lose = 0, tie = 0, myBest = {};
+  SAVE.photos.forEach(function(p){ if(SAVE.known[p.bird] && (!myBest[p.bird] || p.q > myBest[p.bird])) myBest[p.bird] = p.q; });
+  ROSTER.forEach(function(b){ if(mine[b.id] && theirs[b.id] && r.best[b.id] !== undefined){ var a = starsOf(myBest[b.id] || 0), c = starsOf(r.best[b.id]); if(a > c) win++; else if(a < c) lose++; else tie++; } });
+  var isMe = mr && mr.k === r.k, h = '';
+  h += '<h2 class="sh">' + esc(r.name) + '</h2><p class="ssub">' + esc(LV_NAMES[(r.lv || 1) - 1] || '') + ' · rank ' + rankOf(r.k) + ' · ' + (r.score || 0) + ' points' + (r.ts ? ' · seen ' + rel(r.ts) : '') + '</p>';
+  if(r.taunt) h += '<p class="staunt">“' + esc(r.taunt) + '”</p>';
+  h += '<p class="smsg">' + (r.named || 0) + ' of ' + ROSTER.length + ' birds named' + (r.streak && (r.dlast === todayKey() || r.dlast === dayBefore(todayKey())) ? ' · ' + r.streak + '-day streak' : '') + '</p>';
+  if(!isMe){
+    h += '<div class="vs"><b>Head to head</b>';
+    h += '<p>' + (win + lose + tie ? 'On ' + (win + lose + tie) + ' shared birds: you win ' + win + ', ' + esc(r.name) + ' wins ' + lose + (tie ? ', ' + tie + ' tied' : '') + '.' : 'No shared birds yet.') + '</p>';
+    h += '<p>' + esc(r.name) + ' has ' + theyHave.length + ' bird' + (theyHave.length === 1 ? '' : 's') + ' you have not named. You have ' + iHave.length + ' they have not.</p></div>';
+    h += '<div class="sbtns"><button class="btn primary" data-go="smack">Smack talk</button><button class="btn" data-go="trade1">Trade tips</button><button class="btn" data-go="gift">Gift a tip</button></div>';
+  }
+  h += '<h3 class="sh3">Their birds</h3><div class="sgrid">' + ROSTER.map(function(b){
+    var has = !!theirs[b.id];
+    return '<div class="sb' + (has ? (mine[b.id] ? '' : ' mys') : ' unk') + '"><svg viewBox="0 0 200 200" style="' + birdVars(b.colors) + '">' + birdArt(b) + '</svg><small>' + (has ? (mine[b.id] ? esc(b.name) : 'Mystery bird') : '') + '</small>' + (has && r.best[b.id] !== undefined ? starHtml(r.best[b.id]) : '') + '</div>';
+  }).join('') + '</div>';
+  el.innerHTML = h; el.dataset.k = k;
+}
+var SMACK = [
+  'Nice birding, {you}. Did you find any birds or just the parking lot?',
+  'I have {n} birds named. What is your excuse?',
+  'The Leaderbird called. It wants a better birder.',
+  'Your photos have more leaves than bird.',
+  'Rank {rank} says hi from up here.',
+  'Tell your owl I said hoot.',
+  'I heard something rare today. I am not telling you where.',
+  'Nice streak. Shame about the photos.',
+  'I would trade you a tip, but you would only waste it.',
+  'Bring snacks next time. The birds like me better anyway.',
+  'My Stiltwick says hi. Oh wait, you have not found one.',
+  'You call that a call? Even the wind laughed.'
+];
+var lastSend = 0;
+function viewSmack(k){
+  var el = $('socBody'), r = rowBySlug(k) || { name:'friend', k:k }, mr = myRow(), n = Object.keys(SAVE.known).length, rk = mr ? rankOf(mr.k) : '?';
+  var h = '<h2 class="sh">Smack talk for ' + esc(r.name) + '</h2><p class="smsg">Pick a line or write your own (80 letters). It lands in their inbox.</p><div class="plist">';
+  h += SMACK.map(function(t, i){ return '<button class="pline" data-i="' + i + '">' + esc(fillSmack(t, r.name, n, rk)) + '</button>'; }).join('');
+  h += '</div><textarea id="smackTxt" maxlength="80" rows="2" placeholder="Or write your own…"></textarea><button class="btn primary block" id="smackSend">Send</button><p class="smsg" id="smackMsg"></p>';
+  el.innerHTML = h; el.dataset.k = k;
+}
+function fillSmack(t, you, n, rk){ return t.replace('{you}', you).replace('{n}', n).replace('{rank}', rk); }
+function sendMsg(toSlug, obj){
+  var m = myBirder(); if(!m) return Promise.reject();
+  obj.from = m.slug; obj.fn = m.name; obj.ts = Date.now();
+  return cfetch('inbox/' + toSlug, { method:'POST', body:JSON.stringify(obj) });
+}
+function viewTrade(a){
+  var el = $('socBody'), k = a.k, mode = a.mode, r = rowBySlug(k); if(!r){ return; }
+  var theirs = {}; r.known.forEach(function(id){ theirs[id] = 1; });
+  var give = ROSTER.filter(function(b){ return SAVE.known[b.id] && !theirs[b.id]; }), want = ROSTER.filter(function(b){ return !SAVE.known[b.id] && theirs[b.id]; });
+  var h = '<h2 class="sh">' + (mode === 'gift' ? 'Gift a tip to ' : 'Trade tips with ') + esc(r.name) + '</h2>';
+  h += '<p class="smsg">A tip tells them where and when to look and what the call sounds like. Not the name: they still have to find it.</p>';
+  h += '<h3 class="sh3">Tip I give</h3>' + (give.length ? '<div class="pick" data-kind="give">' + give.map(function(b){ return '<button class="pk" data-id="' + b.id + '"><span class="dart"><svg viewBox="0 0 200 200" style="' + birdVars(b.colors) + '">' + birdArt(b) + '</svg></span><b>' + esc(b.name) + '</b><small>' + esc(locById(b.loc).name) + '</small></button>'; }).join('') + '</div>' : '<p class="smsg">You know nothing ' + esc(r.name) + ' does not.</p>');
+  if(mode !== 'gift'){
+    h += '<h3 class="sh3">Tip I want back</h3>' + (want.length ? '<div class="pick" data-kind="want">' + want.map(function(b){ return '<button class="pk" data-id="' + b.id + '"><span class="dart unk"><svg viewBox="0 0 200 200" style="' + birdVars(b.colors) + '">' + birdArt(b) + '</svg></span><b>Mystery bird</b><small>' + esc(locById(b.loc).name) + ' · ' + b.rarity + '</small></button>'; }).join('') + '</div>' : '<p class="smsg">' + esc(r.name) + ' knows nothing you do not.</p>');
+  }
+  h += '<button class="btn primary block" id="tradeSend" disabled>' + (mode === 'gift' ? 'Send the tip' : 'Send the offer') + '</button><p class="smsg" id="tradeMsg"></p>';
+  el.innerHTML = h; el.dataset.k = k; el.dataset.mode = mode; el.dataset.give = ''; el.dataset.want = '';
+}
+
+/* ---- inbox ---- */
+function unreadCount(){ return SOC.mail.filter(function(m){ return !(SAVE.read && SAVE.read[m.k]); }).length; }
+function mailBadge(){
+  var n = unreadCount(), b = $('mailN'); if(b) b.textContent = n ? String(n) : '';
+  var bt = $('mailBtn'); if(bt) bt.classList.toggle('hasmail', n > 0);
+  if(n) coach('mail');
+}
+function mailCheck(){
+  var m = myBirder(); if(!cloudOn() || !m) return Promise.resolve();
+  return cget('inbox/' + m.slug).then(function(o){
+    SOC.mail = Object.keys(o || {}).map(function(k){ var x = o[k]; x.k = k; return x; }).sort(function(a, c){ return c.ts - a.ts; });
+    mailBadge();
+  }).catch(function(){});
+}
+function mailDelete(k){
+  var m = myBirder(); SOC.mail = SOC.mail.filter(function(x){ return x.k !== k; }); mailBadge();
+  if(m) cfetch('inbox/' + m.slug + '/' + k, { method:'DELETE' }).catch(function(){});
+}
+function viewInbox(noFetch){
+  var el = $('socBody'); if(needCloud(el)) return;
+  if(!noFetch) el.innerHTML = '<h2 class="sh">Inbox</h2><p class="smsg">Checking the mailbox…</p>';
+  (noFetch ? Promise.resolve() : mailCheck()).then(function(){
+    if(!SAVE.read) SAVE.read = {};
+    var h = '<h2 class="sh">Inbox</h2>';
+    if(!SOC.mail.length) h += '<p class="smsg">Nothing yet. Poke somebody on the Leaderbird.</p>';
+    SOC.mail.forEach(function(m){
+      SAVE.read[m.k] = 1;
+      var fn = esc(m.fn || 'Someone'), body = '', btns = '';
+      if(m.type === 'poke'){ body = '<b>' + fn + '</b> says: “' + esc(m.text || '') + '”'; btns = '<button class="btn" data-act="reply" data-k="' + m.k + '" data-from="' + esc(m.from) + '">Reply</button><button class="btn" data-act="clear" data-k="' + m.k + '">Clear</button>'; }
+      else if(m.type === 'tip'){
+        var tb = birdById(m.bird); if(!tb) return;
+        var have = SAVE.known[m.bird];
+        body = '<b>' + fn + '</b> tipped you off about a ' + (have ? 'bird you already know.' : 'mystery bird in ' + esc(locById(tb.loc).name) + '.');
+        btns = (have ? '' : '<button class="btn primary" data-act="addtip" data-k="' + m.k + '" data-b="' + m.bird + '" data-fn="' + fn + '">Add to my notes</button>') + '<button class="btn" data-act="clear" data-k="' + m.k + '">Clear</button>';
+      } else if(m.type === 'trade'){
+        var g = birdById(m.give), w = birdById(m.want); if(!g || !w) return;
+        var can = !!SAVE.known[m.want];
+        body = '<b>' + fn + '</b> offers a tip about a mystery bird in ' + esc(locById(g.loc).name) + ' for a tip about your <b>' + esc(w.name) + '</b>.';
+        btns = (can ? '<button class="btn primary" data-act="accept" data-k="' + m.k + '" data-from="' + esc(m.from) + '" data-fn="' + fn + '" data-give="' + m.give + '" data-want="' + m.want + '">Accept the trade</button>' : '') + '<button class="btn" data-act="clear" data-k="' + m.k + '">Decline</button>';
+      } else return;
+      h += '<div class="mail"><p>' + body + '</p><small>' + rel(m.ts) + '</small><div class="sbtns">' + btns + '</div></div>';
+    });
+    el.innerHTML = h; saveGame(); mailBadge();
+  });
+}
+function addTip(bird, from){ if(!SAVE.hints) SAVE.hints = {}; if(!SAVE.hints[bird]) SAVE.hints[bird] = { from:from, ts:Date.now() }; saveGame(); }
+
+function wireSocial(){
+  $('socBack').addEventListener('click', socBack);
+  $('soc').addEventListener('keydown', function(e){ if(e.key === 'Escape') closeSocial(); });
+  $('mailBtn').addEventListener('click', function(){ openSocial('inbox'); });
+  $('lbBtn').addEventListener('click', function(){ openSocial('lead'); });
+  $('outPanel').addEventListener('click', function(e){
+    var d = e.target.closest('.drow'); if(d && !d.disabled){ dailyGo(d.dataset.loc); return; }
+    if(e.target.id === 'dailyShare'){
+      var t = dailyShareText();
+      if(navigator.share) navigator.share({ title:'HOOT!', text:t }).catch(function(){});
+      else if(navigator.clipboard) navigator.clipboard.writeText(t).then(function(){ $('dailyMsg').textContent = 'Result copied. Paste it to a friend.'; });
+    }
+  });
+  $('socBody').addEventListener('click', function(e){
+    var s = SOC.stack[SOC.stack.length - 1], t = e.target, el = $('socBody');
+    var tab = t.closest('.stabs button'); if(tab){ if(tab.dataset.t === 'inbox'){ socGo('inbox'); } else { SOC.stack[SOC.stack.length - 1] = { v:'lead', a:tab.dataset.t }; socRender(); } return; }
+    var li = t.closest('.slist li'); if(li){ socGo('profile', li.dataset.k); return; }
+    if(t.id === 'tauntSave'){ SAVE.taunt = $('tauntIn').value.trim().slice(0, 60); saveGame(); cloudPush(false); t.textContent = 'Saved'; return; }
+    var go = t.closest('[data-go]');
+    if(go){ var k = el.dataset.k; if(go.dataset.go === 'smack') socGo('smack', k); else socGo('trade', { k:k, mode:go.dataset.go === 'gift' ? 'gift' : 'trade' }); return; }
+    var pl = t.closest('.pline'); if(pl){ var r = rowBySlug(el.dataset.k) || { name:'friend' }, mr = myRow(); $('smackTxt').value = fillSmack(SMACK[+pl.dataset.i], r.name, Object.keys(SAVE.known).length, mr ? rankOf(mr.k) : '?').slice(0, 80); return; }
+    if(t.id === 'smackSend'){
+      var txt = $('smackTxt').value.trim(); if(!txt){ $('smackMsg').textContent = 'Pick a line or write one first.'; return; }
+      if(Date.now() - lastSend < 20000){ $('smackMsg').textContent = 'Easy, champ. Give it a few seconds.'; return; }
+      lastSend = Date.now(); $('smackMsg').textContent = 'Sending…';
+      sendMsg(el.dataset.k, { type:'poke', text:txt.slice(0, 80) }).then(function(){ $('smackMsg').textContent = 'Sent. Brace for a reply.'; }).catch(function(){ $('smackMsg').textContent = 'Could not send. Check your connection.'; });
+      return;
+    }
+    var pk = t.closest('.pk'); if(pk){
+      var box = pk.parentNode, kind = box.dataset.kind;
+      Array.prototype.forEach.call(box.children, function(c){ c.classList.remove('on'); }); pk.classList.add('on'); el.dataset[kind] = pk.dataset.id;
+      var ok = el.dataset.give && (el.dataset.mode === 'gift' || el.dataset.want); $('tradeSend').disabled = !ok; return;
+    }
+    if(t.id === 'tradeSend'){
+      var k2 = el.dataset.k, mode = el.dataset.mode, msg = mode === 'gift' ? { type:'tip', bird:el.dataset.give } : { type:'trade', give:el.dataset.give, want:el.dataset.want };
+      $('tradeMsg').textContent = 'Sending…'; t.disabled = true;
+      sendMsg(k2, msg).then(function(){ $('tradeMsg').textContent = mode === 'gift' ? 'Tip sent.' : 'Offer sent. If they accept, your tip shows up in your inbox.'; }).catch(function(){ $('tradeMsg').textContent = 'Could not send. Try again.'; t.disabled = false; });
+      return;
+    }
+    var ac = t.closest('[data-act]'); if(ac){
+      var act = ac.dataset.act, mk = ac.dataset.k;
+      if(act === 'clear'){ mailDelete(mk); viewInbox(true); }
+      else if(act === 'reply'){ socGo('smack', ac.dataset.from); }
+      else if(act === 'addtip'){ addTip(ac.dataset.b, ac.dataset.fn); mailDelete(mk); viewInbox(true); coach('tipped'); }
+      else if(act === 'accept'){
+        addTip(ac.dataset.give, ac.dataset.fn);
+        sendMsg(ac.dataset.from, { type:'tip', bird:ac.dataset.want }).catch(function(){});
+        mailDelete(mk); viewInbox(true); coach('tipped');
+      }
+    }
+  });
+  setTimeout(mailCheck, 2500);
+  setInterval(mailCheck, 90000);
+  document.addEventListener('visibilitychange', function(){ if(document.visibilityState === 'visible') mailCheck(); });
+}
+
 /* ---------- UI ---------- */
 function $(id){ return document.getElementById(id); }
 function r1(n){ return Math.round(n * 10) / 10; }
@@ -3132,6 +3750,7 @@ function setTab(t){
   if(t === 'shp') buildShop();
   if(t === 'rul') buildRulebook();
   if(t === 'adv') { refresh(); drawSono(); }
+  if(typeof updateDots === 'function' && SAVE.sig) updateDots();
 }
 
 /* ---- head-out panel ---- */
@@ -3222,6 +3841,7 @@ function buildKnobs(){
 }
 
 /* ---- sonogram ---- */
+function costTxt(c){ return c >= 1 && c === Math.round(c) ? String(c) : c === 0.5 ? '½' : c === 0.25 ? '¼' : c === 0.75 ? '¾' : (Math.round(c * 100) / 100) + ''; }
 function drawSono(){
   var cv = $('sono'), wrap = $('sonoWrap');
   if(!wrap || wrap.hidden || !G.cur || G.cur.kind !== 'bird') return;
@@ -3236,14 +3856,18 @@ function drawSono(){
   var mine = effectiveVals(vals), tg0 = birdById(G.cur.id).v, lvS = gearFx().sono;
   /* the ghost only shows what your sonogram can read: rhythm, then pitch and slide, then tone and wobble */
   var tg = lvS >= 3 ? tg0 : lvS === 2 ? { notes:tg0.notes, speed:tg0.speed, hold:tg0.hold, pitch:tg0.pitch, slide:tg0.slide, tone:0, wobble:0 } : { notes:tg0.notes, speed:tg0.speed, hold:tg0.hold, pitch:1000, slide:0, tone:0, wobble:0 };
-  var kt = $('sonoKey1'); if(kt) kt.textContent = lvS >= 3 ? 'the sound you heard' : lvS === 2 ? 'what you heard (no tone or wobble)' : 'rhythm of what you heard (pitch: use your ears)';
+  /* Viewer tier: a pure rhythm strip. Neither line shows any pitch, so there is no pitch scale at all. */
+  if(lvS === 1) mine = { notes:mine.notes, speed:mine.speed, hold:mine.hold, pitch:1000, slide:0, tone:0, wobble:0 };
+  var kt = $('sonoKey1'); if(kt) kt.textContent = lvS >= 3 ? 'the sound you heard' : lvS === 2 ? 'what you heard (no tone or wobble)' : 'rhythm you heard (no pitch)';
   function total(p){ var s = 1 / p.speed; return (p.notes - 1) * s + Math.max(0.06, s * p.hold); }
   var tMax = Math.max(0.8, total(mine), total(tg)) * 1.04;
   var fmin = 200, fmax = 5000, padL = 30, padT = 6, padB = 6, w = W - padL - 6, h = H - padT - padB;
   function mx(t){ return padL + t / tMax * w; }
   function my(f){ return padT + (1 - LN(Math.max(fmin, Math.min(fmax, f)) / fmin) / LN(fmax / fmin)) * h; }
   g.font = '10px system-ui, sans-serif'; g.textBaseline = 'middle'; g.fillStyle = muted; g.strokeStyle = line; g.lineWidth = 1;
-  [[250,'250'],[500,'500'],[1000,'1k'],[2000,'2k'],[4000,'4k']].forEach(function(a){
+  if(lvS === 1){
+    var y0 = my(1000); g.beginPath(); g.moveTo(padL, y0); g.lineTo(W - 4, y0); g.stroke(); g.fillText('time', 2, y0);
+  } else [[250,'250'],[500,'500'],[1000,'1k'],[2000,'2k'],[4000,'4k']].forEach(function(a){
     var y = my(a[0]); g.beginPath(); g.moveTo(padL, y); g.lineTo(W - 4, y); g.stroke(); g.fillText(a[1], 2, y);
   });
   function trace(p, color, width, alpha){
@@ -3265,7 +3889,7 @@ function drawSono(){
     }
     g.globalAlpha = 1;
   }
-  trace(tg, ghost, lvS === 1 ? 10 : 7, lvS === 1 ? 0.4 : 0.55);
+  trace(tg, ghost, 7, 0.55);
   trace(mine, fg, 2.5, 1);
 }
 window.addEventListener('resize', function(){ drawSono(); });
@@ -3276,7 +3900,7 @@ function refresh(light){
   var named = ROSTER.filter(function(b){ return SAVE.known[b.id]; }).length;
   $('scoreSub').textContent = named + ' of ' + ROSTER.length + ' named · Lv ' + levelInfo().lv + ' · $' + SAVE.cash.toLocaleString();
   $('outPanel').hidden = G.on; $('field').hidden = !G.on;
-  if(!G.on){ buildPlaces(); $('gearLine').textContent = gearLineText(); $('outChar').innerHTML = charSvg(SAVE.char, gearFlags('mine'), 'idle'); $('outName').textContent = SAVE.char.name; return; }
+  if(!G.on){ buildPlaces(); if(typeof buildDaily === 'function'){ var dsig = todayKey() + Object.keys(SAVE.known).length + ':' + levelInfo().lv + ':' + JSON.stringify((SAVE.daily || {}).best || {}); if(dsig !== refresh.dsig){ refresh.dsig = dsig; buildDaily(); } } $('gearLine').textContent = gearLineText(); $('outChar').innerHTML = charSvg(SAVE.char, gearFlags('mine'), 'idle'); $('outName').textContent = SAVE.char.name; return; }
   $('hClock').textContent = 'Day ' + dayNum(G.T) + ' · ' + clockText(G.T);
   $('hWx').textContent = TB.weather[weatherAt(G.T)].label;
   if(light){
@@ -3292,6 +3916,13 @@ function refresh(light){
   if(!call){ $('world').setAttribute('preserveAspectRatio', 'xMidYMid slice'); $('sonoWrap').hidden = true; }
   $('actWalk').hidden = call; $('actCall').hidden = !call; $('callPanel').hidden = !call;
   $('bTry').hidden = !cur || call;
+  var pr = $('patRow'), isB = !!(cur && cur.kind === 'bird' && cur.pat !== undefined);
+  pr.hidden = !isB;
+  if(isB){
+    var full = Math.ceil(cur.patMax - 1e-6), left = Math.ceil(cur.pat - 1e-6), s = '';
+    for(var pi = 0; pi < full; pi++) s += pi < left ? '●' : '○';
+    $('patPips').textContent = s; pr.classList.toggle('warn', cur.pat <= 2);
+  }
   $('bListen').textContent = 'Listen';
   $('meterBox').hidden = !call;
   if(call){
@@ -3301,7 +3932,10 @@ function refresh(light){
     $('tickSnap').style.left = (RULES['photo.snapAt'] * 100) + '%';
     $('tickName').style.left = (nameAt * 100) + '%';
     $('mLeft').textContent = G.last ? 'Closeness ' + Math.round(eff * 100) + '%' : 'Play your call to test it';
-    $('mRight').textContent = 'It is ' + whereWords(cur);
+    var pen = cur.kind === 'bird' ? RULES['hearing.distPenalty'] * clamp((distTo(cur) - RULES['hearing.nearPx']) / Math.max(1, rangeNow() - RULES['hearing.nearPx']), 0, 1) : 0;
+    $('mRight').textContent = 'It is ' + whereWords(cur) + (cur.kind === 'bird' ? (pen > 0.01 ? ' (distance −' + Math.round(pen * 100) + '%)' : ' (close enough)') : '');
+    $('costClose').textContent = cur.kind === 'bird' ? '−' + costTxt(stepCost()) : '';
+    $('costAgain').textContent = cur.kind === 'bird' ? '−' + costTxt(RULES['pat.relisten']) : '';
     $('bSnap').disabled = !canSnap();
     $('callHint').textContent = 'You heard ' + soundWords(cur) + '.';
     $('sonoWrap').hidden = !(fx.sono && cur.kind === 'bird');
@@ -3347,7 +3981,7 @@ function showPolaroid(p){
   var w = document.querySelector('.world'); if(!w) return;
   var old = w.querySelector('.polpop'); if(old) old.parentNode.removeChild(old);
   var b = birdById(p.bird);
-  var art = p.clear ? '<svg viewBox="0 0 200 200" style="' + birdVars(b.colors) + '">' + birdArt(b) + '</svg>' : partialView(b, p.eff, p.id);
+  var art = partialView(b, p.eff, p.id);
   var d = document.createElement('div'); d.className = 'polpop';
   d.innerHTML = '<div class="pic">' + art + '</div><b>' + (SAVE.known[b.id] ? esc(b.name) : 'Mystery bird') + '</b>' + starHtml(p.q);
   w.appendChild(d);
@@ -3372,11 +4006,20 @@ function starHtml(q){
   for(var i = 1; i <= 5; i++) s += i <= n ? '★' : '<i>★</i>';
   return '<span class="stars" aria-label="' + n + ' of 5 stars">' + s + '</span>';
 }
+/* A photo is only perfectly clear at the clear line (95% closeness). Below it: soft focus, side leaves, leaf clumps and a twig,
+   all growing as the call gets looser, so two photos of the same bird can be ranked by eye. */
 function partialView(b, eff, seed){
-  var h = (hashStr(String(seed)) % 100) / 100, vis = clamp(eff, 0.1, 1), L = (1 - vis) * (0.25 + 0.5 * h), R = 1 - vis - L;
-  var svg = '<svg viewBox="0 0 200 200" style="' + birdVars(b.colors) + '">' + birdArt(b) + '</svg>';
-  if(vis >= 0.995) return '<div class="part">' + svg + '</div>';
-  return '<div class="part">' + svg + '<i class="leafc" style="left:0;width:' + (L * 100).toFixed(1) + '%"></i><i class="leafc" style="right:0;width:' + (R * 100).toFixed(1) + '%"></i></div>';
+  var o = obstruct(eff), hs = hashStr(String(seed)), h = (hs % 100) / 100;
+  var svg = '<svg viewBox="0 0 200 200" style="' + birdVars(b.colors) + (o > 0.03 ? ';filter:blur(' + (o * 2.4).toFixed(1) + 'px)' : '') + '">' + birdArt(b) + '</svg>';
+  if(o <= 0) return '<div class="part">' + svg + '</div>';
+  var side = o * 0.7, L = side * (0.25 + 0.5 * h), R = side - L, extra = '';
+  var n = Math.max(1, Math.round(o * 7)), rnd = mulberry(hs);
+  for(var i = 0; i < n; i++){
+    var sz = 10 + rnd() * 16 + o * 14, x = 4 + rnd() * 80, y = 6 + rnd() * 78, rot = Math.round(rnd() * 90 - 45);
+    extra += '<i class="leafb" style="left:' + x.toFixed(1) + '%;top:' + y.toFixed(1) + '%;width:' + sz.toFixed(1) + '%;height:' + (sz * 0.62).toFixed(1) + '%;transform:rotate(' + rot + 'deg)"></i>';
+  }
+  if(o > 0.22) extra += '<i class="twig" style="top:' + (22 + h * 46).toFixed(0) + '%;transform:rotate(' + Math.round(-18 + h * 36) + 'deg)"></i>';
+  return '<div class="part">' + svg + '<i class="leafc" style="left:0;width:' + (L * 100).toFixed(1) + '%"></i><i class="leafc" style="right:0;width:' + (R * 100).toFixed(1) + '%"></i>' + extra + '</div>';
 }
 function photoHtml(p){
   var b = birdById(p.bird), known = !!SAVE.known[b.id];
@@ -3401,7 +4044,9 @@ function buildAlbum(){
     html += '<button class="dcard" data-b="' + b.id + '" aria-expanded="' + (albSel === b.id) + '">' + art +
       '<span class="dname">' + (known ? esc(b.name) : (ph.length ? 'Mystery bird' : '???')) + '</span>' +
       '<span class="dlat">' + (known ? esc(b.latin) : 'name unknown') + '</span>' +
-      '<span class="dmeta">' + (known ? b.rarity + ' · ' + b.pts + ' pts' : (ph.length ? 'only a partial view so far' : 'not photographed yet')) + '</span>' +
+      '<span class="dmeta">' + (known ? b.rarity + ' · ' + b.pts + ' pts' : (ph.length ? 'Almost! Only a partial view so far.' : teaser(b))) + '</span>' +
+      (!known && SAVE.hints && SAVE.hints[b.id] ? '<span class="dmeta tipd">Tip from ' + esc(SAVE.hints[b.id].from) + '</span>' : '') +
+      (dailyFor(b.loc).id === b.id ? '<span class="dmeta tipd">Bird of the day</span>' : '') +
       (best ? starHtml(best.q) : '') +
       '<span class="dmeta">' + ph.length + ' photo' + (ph.length === 1 ? '' : 's') + '</span></button>';
   });
@@ -3572,7 +4217,7 @@ $('album').addEventListener('click', function(e){
   openSpecies(b.dataset.b);
 });
 loadRules(); loadGame(); if(!SAVE.char){ SAVE.char = defaultChar(); } saveGame();
-buildHeadOut(); wire(); wireRulebook(); wireChar(); wireShop(); refresh();
+buildHeadOut(); wire(); wireRulebook(); wireChar(); wireShop(); wireCoach(); wireSocial(); refresh();
 setInterval(tickClock, 1000);
 
 /* ---------- cloud saves + Leaderbird (Firebase Realtime Database, plain web requests) ---------- */
@@ -3600,8 +4245,20 @@ function hashPin(slug, pin){
   return Promise.resolve('h' + hashStr(s));
 }
 function boardRow(name){
-  var li = levelInfo();
-  return { name:name, score:li.score, named:Object.keys(SAVE.known || {}).length, lv:li.lv, ts:Date.now() };
+  var li = levelInfo(), best = {};
+  SAVE.photos.forEach(function(p){ if(SAVE.known[p.bird] && (!best[p.bird] || p.q > best[p.bird])) best[p.bird] = Math.round(p.q * 100) / 100; });
+  var D = SAVE.daily || {};
+  return { name:name, score:li.score, named:Object.keys(SAVE.known || {}).length, lv:li.lv, ts:Date.now(), known:Object.keys(SAVE.known || {}), best:best, taunt:SAVE.taunt || '', streak:D.streak || 0, dlast:D.last || '' };
+}
+function pushDaily(b, keep){
+  var D = SAVE.daily; if(!D || !D.best) return Promise.resolve();
+  var jobs = [];
+  Object.keys(D.best).forEach(function(k){
+    var e = D.best[k]; if(e.sent) return;
+    var p = k.split(':');
+    jobs.push(cput('daily/' + p[0] + '/' + p[1] + '/' + b.slug, { name:b.name, q:e.q, eff:e.eff, ts:Date.now() }, keep).then(function(){ e.sent = true; }));
+  });
+  return Promise.all(jobs);
 }
 var cloudState = 'off', cloudTimer = null;
 function setCloudState(s){ cloudState = s; var e = document.getElementById('cloudDot'); if(e) e.textContent = s === 'saved' ? 'Cloud: saved' : s === 'saving' ? 'Cloud: saving…' : s === 'offline' ? 'Cloud: offline' : s === 'newer' ? 'Cloud: a newer save exists. Tap Title screen, then your name.' : ''; }
@@ -3626,6 +4283,7 @@ function cloudPush(keep){
     var now = Date.now(), body = JSON.stringify(SAVE);
     return cpatch('birders/' + b.slug, { save:body, updated:now, rev:SAVE.rev || 0 }, keep && body.length < 50000)
       .then(function(){ return cput('leader/' + b.slug, boardRow(b.name), keep && body.length < 50000); })
+      .then(function(){ return pushDaily(b, keep && body.length < 50000); })
       .then(function(){ b.synced = now; lastGuard = now; saveBirders(); setCloudState('saved'); })
       .catch(function(){ setCloudState('offline'); });
   }
@@ -3790,6 +4448,7 @@ if(cloudOn() && loadedBirder() && loadedBirder().cloud){
   /* Leaderbird */
   $('stLead').addEventListener('click', function(){
     if(!cloudOn()){ say('The Leaderbird opens once cloud saves are switched on.'); return; }
+    if(myBirder()){ openSocial('lead'); return; }
     st.hidden = true; $('lead').hidden = false; $('ldList').innerHTML = ''; $('ldMsg').textContent = 'Fetching the flock…';
     var me = loadedBirder(), pre = me && me.cloud ? cloudPush(false) : Promise.resolve();
     pre.then(function(){ return cget('leader'); }).then(function(o){
