@@ -382,6 +382,37 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px}
 #spec .pinfo span{display:block;font-size:14px}
 #spec .spname,#spec h3{color:#2b2118;font-family:inherit;text-transform:none}
 
+/* compact header, call-mode stage, fine knob controls */
+.topbar{align-items:center}
+.brand{display:flex;align-items:baseline;gap:10px}
+.logo{font-size:30px!important}
+.score b{font-size:22px}
+header{gap:0}
+.wrap{gap:10px}
+#toTitle{margin-top:0}
+#actCall[hidden],#actWalk[hidden]{display:none}
+.stage.calling{gap:6px;padding:8px}
+.stage.calling #world{aspect-ratio:360/104}
+.stage.calling .log{min-height:0}
+.stage.calling .log p:nth-child(n+2){display:none}
+.stage.calling #actCall{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.stage.calling .actions .btn{min-height:40px;font-size:14px;padding:0 6px}
+.stage #sono{height:84px}
+.stage .sono-key{gap:10px}
+.kstep{touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.kthumb.fine::before{content:"fine";position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:800;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:0 5px}
+.kthumb.fine::after{box-shadow:0 0 0 4px var(--accent)}
+/* tighter call-mode stage for small phones */
+.stage.calling .hud{font-size:12px;gap:6px}
+.stage.calling .hud .pill{padding:1px 8px}
+.stage.calling .hud .small{min-height:28px;font-size:12px;padding:0 10px}
+.stage.calling #world{aspect-ratio:360/84}
+.stage.calling .log p:first-child{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stage.calling .meter-row{font-size:11px}
+.stage.calling .actions .btn{min-height:38px;font-size:13px;padding:0 4px;line-height:1.1}
+.stage #sono{height:72px}
+.stage .sono-key{font-size:11px}
+
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -475,14 +506,9 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px}
 <div class="wrap">
   <header>
     <div class="topbar">
-      <div>
-        <h1 class="logo">HOOT!</h1>
-        <p class="sub">It&rsquo;s a Hoot!</p>
-        <button class="small" id="toTitle">Title screen</button> <span class="cloud" id="cloudDot"></span>
-      </div>
+      <div class="brand"><h1 class="logo">HOOT!</h1><span class="cloud" id="cloudDot"></span></div>
       <div class="score" aria-live="polite"><b id="score">0</b><span id="scoreSub">0 of 5 birds named</span></div>
     </div>
-    <p class="lede">Tester build: Pine Forest, Misty Marsh, City Park. Walk, listen, and answer what you like.</p>
   </header>
 
   <div class="tabs" role="tablist">
@@ -507,6 +533,7 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px}
       </div>
       <p class="muted" id="gearLine"></p>
       <button class="btn primary block" id="goBtn">Head out</button>
+      <button class="btn block" id="toTitle">Title screen</button>
     </div>
 
     <div id="field" hidden>
@@ -521,6 +548,10 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px}
         <div id="meterBox" hidden>
           <div class="meter"><div class="fill" id="fill"></div><i class="tick" id="tickSnap"></i><i class="tick" id="tickName"></i></div>
           <div class="meter-row"><span id="mLeft">Closeness 0%</span><span id="mRight"></span></div>
+        </div>
+        <div class="sono-wrap" id="sonoWrap" hidden>
+          <canvas id="sono" aria-label="Sonogram of the sound you are matching and your call"></canvas>
+          <div class="sono-key"><span id="sonoKey1">the sound you heard</span><span class="you">your call</span></div>
         </div>
         <div class="actions" id="actWalk">
           <button class="btn primary" id="bWalk">Walk a bit</button>
@@ -537,12 +568,9 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px}
         </div>
       </div>
       <div class="call-panel" id="callPanel" hidden>
-        <div class="sono-wrap" id="sonoWrap" hidden>
-          <canvas id="sono" aria-label="Sonogram of the sound you are matching and your call"></canvas>
-          <div class="sono-key"><span>the sound you heard</span><span class="you">your call</span></div>
-        </div>
         <p class="hint" id="callHint">Set the knobs to match what you heard, then Play my call.</p>
         <div class="knobs" id="knobs"></div>
+        <p class="hint">Tip: tap &minus; or + for tiny steps (hold to repeat). Drag the handle for big moves, and while dragging slide your finger up away from the bar to go extra slow.</p>
       </div>
     </div>
   </section>
@@ -1418,7 +1446,9 @@ var WEATHER_EVERY_HOURS = 2.5;
 var DEF_GEAR = [
   { id:'mk2',    name:'Call Machine Mk II',   cost:400,   fx:{ machine:2 },    what:'Unlocks the Slide and Tone knobs.' },
   { id:'mk3',    name:'Call Machine Mk III',  cost:1500,  fx:{ machine:3 },    what:'Unlocks the Wobble knob. Needed for Rare and Legendary calls.' },
-  { id:'sono',   name:'Sonogram Viewer',      cost:600,   fx:{ sono:1 },       what:'Shows the shape of the sound you are matching, next to your own.' },
+  { id:'sono',   name:'Sonogram Viewer',      cost:600,   fx:{ sono:1 },       what:'Shows the RHYTHM of the sound you heard (how many notes, how fast, how long). Pitch is still up to your ears.' },
+  { id:'sono2',  name:'Sonogram Mk II',       cost:1800,  fx:{ sono:2 },       what:'Adds PITCH and SLIDE to the sonogram: how high the call sits and which way it bends.' },
+  { id:'sono3',  name:'Sonogram Mk III',      cost:4000,  fx:{ sono:3 },       what:'Adds TONE and WOBBLE: the full picture of the call.' },
   { id:'guide',  name:'Pocket Field Guide',   cost:300,   fx:{ nameDelta:0.07 },what:'Easier to learn a bird’s name: needs a slightly less perfect call.' },
   { id:'binoc',  name:'Cheap Binoculars',     cost:500,   fx:{ spot:1 },       what:'Lets you spot Common and a few Uncommon birds peeking while you walk.' },
   { id:'scope',  name:'Spotting Scope',       cost:2000,  fx:{ spot:2 },       what:'Spots Uncommon birds easily and Rare ones now and then.' },
@@ -1430,8 +1460,8 @@ var DEF_GEAR = [
 ];
 
 /* ---------- Economy: Birdbucks, levels, the shop ---------- */
-var GEAR_LVL = { guide:1, binoc:1, lamp:2, poncho:2, mk2:2, sono:2, lens:3, mic:3, mk3:4, scope:4, mythic:6 };
-var GEAR_NEED = { mk3:'mk2', scope:'binoc', mythic:'scope' };
+var GEAR_LVL = { guide:1, binoc:1, lamp:2, poncho:2, mk2:2, sono:2, sono2:3, sono3:5, lens:3, mic:3, mk3:4, scope:4, mythic:6 };
+var GEAR_NEED = { sono2:'sono', sono3:'sono2', mk3:'mk2', scope:'binoc', mythic:'scope' };
 [
   { k:'econ.priceMult',   label:'Photo price (× points × quality)', help:'A magazine pays this fraction of a bird’s points times your photo quality. 0.8 means a perfect Common (100 points) sells for 80.', def:0.8, step:0.05 },
   { k:'econ.repeatPay',   label:'Repeat-photo pay',          help:'The 2nd, 3rd… photo of the same species sells for this fraction of the price (the magazines already have one). 1 = no penalty.', def:0.3, step:0.05 },
@@ -1630,7 +1660,7 @@ function gearFx(){
     if(!SAVE.equipped[g.id]) return;
     var f = g.fx;
     if(f.machine) fx.machine = Math.max(fx.machine, f.machine);
-    if(f.sono) fx.sono = 1;
+    if(f.sono) fx.sono = Math.max(fx.sono, f.sono);
     if(f.nameDelta) fx.nameDelta += f.nameDelta;
     if(f.spot) fx.spot = Math.max(fx.spot, f.spot);
     if(f.hearMult) fx.hearMult *= f.hearMult;
@@ -2126,7 +2156,7 @@ var PRESETS = [
 /* How each piece of gear changes the way the character listens (default: cup a hand to the ear). Add more here later, e.g. raising the binoculars. */
 var GEAR_LISTEN = { mic:'Holds the dish up toward the sound instead of cupping a hand to the ear.' };
 var GEAR_LOOK = {
-  mk2:'A birder’s vest with pockets appears.', mk3:'The vest picks up merit patches.', sono:'No change. It shows on the sound screen.',
+  mk2:'A birder’s vest with pockets appears.', mk3:'The vest picks up merit patches.', sono:'No change. It shows on the sound screen.', sono2:'No change. It shows on the sound screen.', sono3:'No change. It shows on the sound screen.',
   guide:'A little green field guide pokes out of the vest pocket.', binoc:'Binoculars hang on your chest.', scope:'A spotting scope rides on your shoulder.',
   mythic:'The binoculars turn gold and glow.', mic:'A parabolic dish rides on your back, and you hold it up to listen.', lamp:'A headlamp on your forehead.',
   poncho:'A yellow rain poncho over everything.', lens:'A big telephoto lens on your camera.'
@@ -2138,7 +2168,7 @@ function shade(hex, f){
   return '#' + [c(r), c(g), c(b)].map(function(v){ return (v < 16 ? '0' : '') + v.toString(16); }).join('');
 }
 function gearFlags(mode){
-  var f = { mk2:0, mk3:0, sono:0, guide:0, binoc:0, scope:0, mythic:0, mic:0, lamp:0, poncho:0, lens:0 };
+  var f = { mk2:0, mk3:0, sono:0, sono2:0, sono3:0, guide:0, binoc:0, scope:0, mythic:0, mic:0, lamp:0, poncho:0, lens:0 };
   if(mode === 'none') return f;
   DEF_GEAR.forEach(function(g){
     if(mode === 'all' ? g.id !== 'poncho' : SAVE.equipped[g.id]) f[g.id] = 1;
@@ -3151,20 +3181,36 @@ function buildKnobs(){
       pos = k.id === 'notes' ? Math.round(k.toPos(v) * 1000) : p;
       paint(); drawSono();
     }
-    function nudge(dir){
-      var cur = vals[k.id], p = pos + dir * 50;
+    function nudge(dir, mult){
+      var cur = vals[k.id], p = pos + dir * 5 * (mult || 1);
       for(var i = 0; i < 60 && p > 0 && p < 1000 && k.toValue(p / 1000) === cur; i++) p += dir * 20;
       apply(p);
     }
     paint();
     if(locked) return;
-    row.querySelectorAll('.kstep').forEach(function(bt){ bt.addEventListener('click', function(){ nudge(+bt.dataset.d); }); });
+    row.querySelectorAll('.kstep').forEach(function(bt){
+      var dir = +bt.dataset.d, tmr = null, iv = null, n = 0;
+      function stop(){ clearTimeout(tmr); clearInterval(iv); tmr = iv = null; }
+      bt.addEventListener('pointerdown', function(e){
+        e.preventDefault(); stop(); n = 0; nudge(dir);
+        tmr = setTimeout(function(){ iv = setInterval(function(){ n++; nudge(dir, n > 14 ? 6 : n > 6 ? 3 : 1); }, 90); }, 380);
+      });
+      ['pointerup', 'pointerleave', 'pointercancel'].forEach(function(ev){ bt.addEventListener(ev, stop); });
+      bt.addEventListener('click', function(e){ if(e.detail === 0) nudge(dir); });
+      bt.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+    });
     /* only the handle drags; touching the track anywhere else scrolls the page */
-    var dragging = false;
-    function fromEvent(e){ var r = track.getBoundingClientRect(); return (e.clientX - r.left) / r.width * 1000; }
-    thumb.addEventListener('pointerdown', function(e){ dragging = true; try{ thumb.setPointerCapture(e.pointerId); }catch(x){} thumb.classList.add('drag'); e.preventDefault(); });
-    thumb.addEventListener('pointermove', function(e){ if(dragging) apply(fromEvent(e)); });
-    function end(){ dragging = false; thumb.classList.remove('drag'); }
+    var dragging = false, fp = 0, lastX = 0, startY = 0;
+    thumb.addEventListener('pointerdown', function(e){ dragging = true; fp = pos; lastX = e.clientX; startY = e.clientY; try{ thumb.setPointerCapture(e.pointerId); }catch(x){} thumb.classList.add('drag'); e.preventDefault(); });
+    /* slide the finger up away from the bar while dragging = fine mode (about 7x slower) */
+    thumb.addEventListener('pointermove', function(e){
+      if(!dragging) return;
+      var f = Math.abs(e.clientY - startY) > 40 ? 0.15 : 1, w = track.getBoundingClientRect().width || 1;
+      thumb.classList.toggle('fine', f < 1);
+      fp = Math.max(0, Math.min(1000, fp + (e.clientX - lastX) / w * 1000 * f)); lastX = e.clientX;
+      apply(fp);
+    });
+    function end(){ dragging = false; thumb.classList.remove('drag', 'fine'); }
     thumb.addEventListener('pointerup', end); thumb.addEventListener('pointercancel', end);
     thumb.addEventListener('keydown', function(e){
       var d = e.key === 'ArrowRight' || e.key === 'ArrowUp' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowDown' ? -1 : 0;
@@ -3185,7 +3231,10 @@ function drawSono(){
   var cs = getComputedStyle(document.documentElement);
   var fg = cs.getPropertyValue('--fg').trim() || '#1b2430', muted = cs.getPropertyValue('--muted').trim() || '#566273';
   var line = cs.getPropertyValue('--line').trim() || '#c9d1da', ghost = cs.getPropertyValue('--ghost').trim() || '#e0701f';
-  var mine = effectiveVals(vals), tg = birdById(G.cur.id).v;
+  var mine = effectiveVals(vals), tg0 = birdById(G.cur.id).v, lvS = gearFx().sono;
+  /* the ghost only shows what your sonogram can read: rhythm, then pitch and slide, then tone and wobble */
+  var tg = lvS >= 3 ? tg0 : lvS === 2 ? { notes:tg0.notes, speed:tg0.speed, hold:tg0.hold, pitch:tg0.pitch, slide:tg0.slide, tone:0, wobble:0 } : { notes:tg0.notes, speed:tg0.speed, hold:tg0.hold, pitch:1000, slide:0, tone:0, wobble:0 };
+  var kt = $('sonoKey1'); if(kt) kt.textContent = lvS >= 3 ? 'the sound you heard' : lvS === 2 ? 'what you heard (no tone or wobble)' : 'rhythm of what you heard (pitch: use your ears)';
   function total(p){ var s = 1 / p.speed; return (p.notes - 1) * s + Math.max(0.06, s * p.hold); }
   var tMax = Math.max(0.8, total(mine), total(tg)) * 1.04;
   var fmin = 200, fmax = 5000, padL = 30, padT = 6, padB = 6, w = W - padL - 6, h = H - padT - padB;
@@ -3214,7 +3263,7 @@ function drawSono(){
     }
     g.globalAlpha = 1;
   }
-  trace(tg, ghost, 7, 0.55);
+  trace(tg, ghost, lvS === 1 ? 10 : 7, lvS === 1 ? 0.4 : 0.55);
   trace(mine, fg, 2.5, 1);
 }
 window.addEventListener('resize', function(){ drawSono(); });
@@ -3237,6 +3286,8 @@ function refresh(light){
   updateWorld();
   var cur = G.cur, call = !!(cur && G.mode === 'call');
   $('log').innerHTML = G.log.slice(0, call ? 2 : 3).map(function(s){ return '<p>' + esc(s) + '</p>'; }).join('');
+  document.querySelector('#field .stage').classList.toggle('calling', call);
+  if(!call){ $('world').setAttribute('preserveAspectRatio', 'xMidYMid slice'); $('sonoWrap').hidden = true; }
   $('actWalk').hidden = call; $('actCall').hidden = !call; $('callPanel').hidden = !call;
   $('bTry').hidden = !cur || call;
   $('bListen').textContent = 'Listen';
@@ -3252,6 +3303,7 @@ function refresh(light){
     $('bSnap').disabled = !canSnap();
     $('callHint').textContent = 'You heard ' + soundWords(cur) + '.';
     $('sonoWrap').hidden = !(fx.sono && cur.kind === 'bird');
+    $('world').setAttribute('preserveAspectRatio', 'xMidYMax slice');
     if($('knobs').dataset.lvl !== String(fx.machine)){ $('knobs').dataset.lvl = String(fx.machine); buildKnobs(); }
     drawSono();
   }
