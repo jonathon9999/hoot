@@ -343,6 +343,20 @@ input[type=range]::-webkit-slider-thumb{width:28px;height:28px}
 input[type=range]::-moz-range-thumb{width:28px;height:28px}
 .tabs button{min-height:44px;font-size:13px}
 
+/* call machine knobs: handle-only drag, +/- buttons */
+.kctl{display:flex;align-items:center;gap:10px;margin:6px 0 2px}
+.kstep{flex:none;width:46px;height:46px;border-radius:12px;border:2px solid var(--fg);background:var(--surface);color:var(--fg);font-size:26px;line-height:1;font-weight:800;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
+.kstep:active{background:var(--accent);color:var(--accent-ink)}
+.kstep:disabled{opacity:.4;border-color:var(--lock);cursor:default}
+.ktrack{position:relative;flex:1;min-width:0;height:46px;touch-action:pan-y;margin:0 22px 0 22px}
+.ktrack::before{content:"";position:absolute;left:-22px;right:-22px;top:50%;height:10px;margin-top:-5px;border-radius:6px;background:var(--line)}
+.kfill{position:absolute;left:-22px;top:50%;height:10px;margin-top:-5px;border-radius:6px;background:var(--accent)}
+.kthumb{position:absolute;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;touch-action:none;cursor:grab;display:flex;align-items:center;justify-content:center}
+.kthumb::after{content:"";width:28px;height:28px;border-radius:50%;background:var(--accent);border:3px solid var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.35)}
+.kthumb.drag::after{transform:scale(1.2)}
+.kthumb:focus-visible::after{outline:3px solid var(--fg);outline-offset:3px}
+.knob.locked .kthumb::after{background:var(--lock)}
+
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -3007,18 +3021,42 @@ function buildKnobs(){
     var locked = k.lvl > fx.machine, row = document.createElement('div');
     row.className = 'knob' + (locked ? ' locked' : '');
     row.innerHTML = '<div class="knob-top"><b>' + k.label + '</b><output id="o-' + k.id + '"></output></div>' +
-      '<input type="range" min="0" max="1000" step="1" id="k-' + k.id + '" aria-label="' + k.label + '"' + (locked ? ' disabled' : '') + '>' +
+      '<div class="kctl"><button type="button" class="kstep" data-d="-1" aria-label="Lower ' + k.label + '"' + (locked ? ' disabled' : '') + '>&minus;</button>' +
+      '<div class="ktrack"><div class="kfill"></div><div class="kthumb" role="slider" tabindex="' + (locked ? '-1' : '0') + '" aria-label="' + k.label + '" aria-valuemin="0" aria-valuemax="1000"' + (locked ? ' aria-disabled="true"' : '') + '></div></div>' +
+      '<button type="button" class="kstep" data-d="1" aria-label="Raise ' + k.label + '"' + (locked ? ' disabled' : '') + '>+</button></div>' +
       '<div class="ends"><span>' + k.lo + '</span><span>' + k.hi + '</span></div>' +
       (locked ? '<div class="lock-note">Needs ' + LVLNAME[k.lvl] + '</div>' : '');
     host.appendChild(row);
-    var inp = row.querySelector('input');
-    inp.value = Math.round(k.toPos(locked ? k.def : vals[k.id]) * 1000);
-    row.querySelector('output').textContent = k.fmt(locked ? k.def : vals[k.id]);
-    inp.addEventListener('input', function(){
-      var v = k.toValue(inp.value / 1000); vals[k.id] = v;
-      if(k.id === 'notes') inp.value = Math.round(k.toPos(v) * 1000);
-      row.querySelector('output').textContent = k.fmt(v);
-      drawSono();
+    var track = row.querySelector('.ktrack'), thumb = row.querySelector('.kthumb'), fill = row.querySelector('.kfill'), out = row.querySelector('output');
+    var pos = Math.round(k.toPos(locked ? k.def : vals[k.id]) * 1000);
+    function paint(){
+      var pct = pos / 10; thumb.style.left = pct + '%'; fill.style.width = 'calc(' + pct + '% + 22px)'; thumb.setAttribute('aria-valuenow', pos);
+      out.textContent = k.fmt(locked ? k.def : vals[k.id]);
+    }
+    function apply(p){
+      p = Math.max(0, Math.min(1000, Math.round(p)));
+      var v = k.toValue(p / 1000); vals[k.id] = v;
+      pos = k.id === 'notes' ? Math.round(k.toPos(v) * 1000) : p;
+      paint(); drawSono();
+    }
+    function nudge(dir){
+      var cur = vals[k.id], p = pos + dir * 50;
+      for(var i = 0; i < 60 && p > 0 && p < 1000 && k.toValue(p / 1000) === cur; i++) p += dir * 20;
+      apply(p);
+    }
+    paint();
+    if(locked) return;
+    row.querySelectorAll('.kstep').forEach(function(bt){ bt.addEventListener('click', function(){ nudge(+bt.dataset.d); }); });
+    /* only the handle drags; touching the track anywhere else scrolls the page */
+    var dragging = false;
+    function fromEvent(e){ var r = track.getBoundingClientRect(); return (e.clientX - r.left) / r.width * 1000; }
+    thumb.addEventListener('pointerdown', function(e){ dragging = true; try{ thumb.setPointerCapture(e.pointerId); }catch(x){} thumb.classList.add('drag'); e.preventDefault(); });
+    thumb.addEventListener('pointermove', function(e){ if(dragging) apply(fromEvent(e)); });
+    function end(){ dragging = false; thumb.classList.remove('drag'); }
+    thumb.addEventListener('pointerup', end); thumb.addEventListener('pointercancel', end);
+    thumb.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' || e.key === 'ArrowUp' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowDown' ? -1 : 0;
+      if(d){ e.preventDefault(); nudge(d); }
     });
   });
 }
