@@ -1554,7 +1554,9 @@ var BR = (function(){
 function saveBirders(){ try{ localStorage.setItem(BIRDERS_KEY, JSON.stringify(BR)); }catch(e){} }
 function curBirder(){ return BR.list.filter(function(b){ return b.id === BR.cur; })[0] || null; }
 var SAVE_KEY = curBirder() ? curBirder().key : null;
-var SAVE = { birder:'', equipped:{}, photos:[], known:{}, noises:{}, days:0, visits:0, char:null, best:{}, cash:0, sold:{}, board:[], lastLoc:'forest' };
+/* the birder whose save is actually in memory (BR.cur can change a moment before a switch reloads the page) */
+function loadedBirder(){ return BR.list.filter(function(b){ return b.key === SAVE_KEY; })[0] || null; }
+var SAVE = { rev:0, birder:'', equipped:{}, photos:[], known:{}, noises:{}, days:0, visits:0, char:null, best:{}, cash:0, sold:{}, board:[], lastLoc:'forest' };
 var G = { loc:'forest', on:false, T:0, x:100, xu:100, face:1, cur:null, seed:1, pose:'idle', poseUntil:0, silent:{}, log:[], mode:'walk', fails:0, last:null, peek:0, startHour:6 };
 
 function clone(o){ return JSON.parse(JSON.stringify(o)); }
@@ -1590,7 +1592,7 @@ function mergeDefaults(){
   });
   Object.keys(DEF_BIRDS).forEach(function(id){ if(!TB.birds[id]) TB.birds[id] = clone(DEF_BIRDS[id]); });
 }
-function saveGame(){ if(!SAVE_KEY) return; try{ localStorage.setItem(SAVE_KEY, JSON.stringify(SAVE)); }catch(e){} }
+function saveGame(){ if(!SAVE_KEY) return; SAVE.rev = (SAVE.rev || 0) + 1; try{ localStorage.setItem(SAVE_KEY, JSON.stringify(SAVE)); }catch(e){} }
 function loadGame(){
   if(SAVE_KEY) try{
     var o = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null');
@@ -3602,25 +3604,56 @@ function boardRow(name){
   return { name:name, score:li.score, named:Object.keys(SAVE.known || {}).length, lv:li.lv, ts:Date.now() };
 }
 var cloudState = 'off', cloudTimer = null;
-function setCloudState(s){ cloudState = s; var e = document.getElementById('cloudDot'); if(e) e.textContent = s === 'saved' ? 'Cloud: saved' : s === 'saving' ? 'Cloud: saving…' : s === 'offline' ? 'Cloud: offline' : ''; }
+function setCloudState(s){ cloudState = s; var e = document.getElementById('cloudDot'); if(e) e.textContent = s === 'saved' ? 'Cloud: saved' : s === 'saving' ? 'Cloud: saving…' : s === 'offline' ? 'Cloud: offline' : s === 'newer' ? 'Cloud: a newer save exists. Tap Title screen, then your name.' : ''; }
+/* Saves carry a version counter (SAVE.rev) that goes up on every save. An older copy can never overwrite a newer one,
+   and any save that gets replaced is first copied to a backup key on this phone. */
+function localRevOf(b){ try{ var o = JSON.parse(localStorage.getItem(b.key) || 'null'); return (o && o.rev) || 0; }catch(e){ return 0; } }
+function backupLocal(b){ try{ var cur = localStorage.getItem(b.key); if(cur) localStorage.setItem(b.key + '-bak', cur); }catch(e){} }
+function cloudNewer(b, r){
+  if(!r || !r.save) return false;
+  var cr = r.rev || 0, lr = localRevOf(b);
+  return cr > lr || (cr === 0 && lr === 0 && (r.updated || 0) > (b.synced || 0));
+}
+function pullCloud(b, r){
+  backupLocal(b);
+  try{ localStorage.setItem(b.key, r.save); }catch(e){ return false; }
+  b.synced = r.updated || Date.now(); saveBirders(); return true;
+}
+var lastGuard = 0;
 function cloudPush(keep){
-  var b = curBirder(); if(!cloudOn() || !b || !b.cloud) return Promise.resolve();
+  var b = loadedBirder(); if(!cloudOn() || !b || !b.cloud) return Promise.resolve();
+  function doPush(){
+    var now = Date.now(), body = JSON.stringify(SAVE);
+    return cpatch('birders/' + b.slug, { save:body, updated:now, rev:SAVE.rev || 0 }, keep && body.length < 50000)
+      .then(function(){ return cput('leader/' + b.slug, boardRow(b.name), keep && body.length < 50000); })
+      .then(function(){ b.synced = now; lastGuard = now; saveBirders(); setCloudState('saved'); })
+      .catch(function(){ setCloudState('offline'); });
+  }
   setCloudState('saving');
-  var now = Date.now();
-  return cpatch('birders/' + b.slug, { save:JSON.stringify(SAVE), updated:now }, keep)
-    .then(function(){ return cput('leader/' + b.slug, boardRow(b.name), keep); })
-    .then(function(){ b.synced = now; saveBirders(); setCloudState('saved'); })
-    .catch(function(){ setCloudState('offline'); });
+  /* when the page is closing there is no time to check first, so only do it if we checked a moment ago */
+  if(keep) return Date.now() - lastGuard < 90000 ? doPush() : Promise.resolve();
+  return cget('birders/' + b.slug).then(function(r){
+    if(cloudNewer(b, r)){ setCloudState('newer'); return; }
+    return doPush();
+  }).catch(function(){ setCloudState('offline'); });
 }
 function cloudSoon(){
-  var b = curBirder(); if(!cloudOn() || !b || !b.cloud) return;
-  clearTimeout(cloudTimer); cloudTimer = setTimeout(function(){ cloudPush(false); }, 4000);
+  var b = loadedBirder(); if(!cloudOn() || !b || !b.cloud) return;
+  clearTimeout(cloudTimer); cloudTimer = setTimeout(function(){ cloudPush(false); }, 2500);
 }
 var _saveGameLocal = saveGame;
 saveGame = function(){ _saveGameLocal(); cloudSoon(); };
 document.addEventListener('visibilitychange', function(){ if(document.visibilityState === 'hidden' && cloudTimer){ clearTimeout(cloudTimer); cloudTimer = null; cloudPush(true); } });
 window.addEventListener('pagehide', function(){ if(cloudTimer){ clearTimeout(cloudTimer); cloudTimer = null; cloudPush(true); } });
-if(cloudOn() && curBirder() && curBirder().cloud) setCloudState('saved');
+if(cloudOn() && loadedBirder() && loadedBirder().cloud){
+  setCloudState('saved');
+  /* on opening the game, pick up newer progress from another phone before playing */
+  var b0 = loadedBirder();
+  cget('birders/' + b0.slug).then(function(r){
+    if(cloudNewer(b0, r) && pullCloud(b0, r)){ try{ sessionStorage.setItem('hoot-skip-title', '1'); }catch(e){} location.reload(); }
+    else lastGuard = Date.now();
+  }).catch(function(){});
+}
 
 /* ---------- title screen, birder profiles, cloud sign-in, Leaderbird ---------- */
 (function(){
@@ -3652,7 +3685,9 @@ if(cloudOn() && curBirder() && curBirder().cloud) setCloudState('saved');
     BR.list.push(b); saveBirders(); return b;
   }
   function enter(b, forceReload){
-    ensureAudio(); b.last = Date.now(); BR.cur = b.id; saveBirders();
+    ensureAudio();
+    /* send the birder we are leaving to the cloud now, while their save is still the one in memory */
+    if(b.id !== curKeyId() && cloudTimer){ clearTimeout(cloudTimer); cloudTimer = null; cloudPush(true); } b.last = Date.now(); BR.cur = b.id; saveBirders();
     if(!forceReload && b.id === curKeyId()){ hide(); return; }
     try{ sessionStorage.setItem('hoot-skip-title', '1'); }catch(e){}
     location.reload();
@@ -3662,8 +3697,7 @@ if(cloudOn() && curBirder() && curBirder().cloud) setCloudState('saved');
     if(cloudOn() && b.cloud){
       say('Checking the cloud…');
       cget('birders/' + b.slug).then(function(r){
-        var pulled = false;
-        if(r && r.save && r.updated > (b.synced || 0)){ try{ localStorage.setItem(b.key, r.save); b.synced = r.updated; saveBirders(); pulled = true; }catch(e){} }
+        var pulled = cloudNewer(b, r) ? pullCloud(b, r) : false;
         enter(b, pulled);
       }).catch(function(){ say('Cloud is out of reach. Playing from this phone.'); enter(b, false); });
     } else enter(b, false);
@@ -3707,7 +3741,12 @@ if(cloudOn() && curBirder() && curBirder().cloud) setCloudState('saved');
         if(h !== r.ph){ say('Wrong PIN for ' + r.name + '.'); return; }
         var o; try{ o = JSON.parse(r.save); }catch(e){ o = { birder:r.name }; }
         var b = BR.list.filter(function(x){ return x.slug === f.slug; })[0];
-        if(b){ try{ localStorage.setItem(b.key, JSON.stringify(o)); }catch(e){} b.synced = r.updated; b.pin = f.pin; saveBirders(); enter(b, true); }
+        if(b){
+          b.pin = f.pin;
+          /* a sign-in link never wipes newer progress on this phone */
+          if(cloudNewer(b, r)){ pullCloud(b, r); enter(b, true); }
+          else { saveBirders(); enter(b, false); if(b.id === curKeyId()) cloudSoon(); }
+        }
         else { b = addBirder(r.name, o, { cloud:true, slug:f.slug, pin:f.pin, synced:r.updated }); if(b) enter(b, true); }
       });
     }).catch(function(){ say('Could not reach the cloud. Check your connection and try again.'); });
@@ -3752,7 +3791,7 @@ if(cloudOn() && curBirder() && curBirder().cloud) setCloudState('saved');
   $('stLead').addEventListener('click', function(){
     if(!cloudOn()){ say('The Leaderbird opens once cloud saves are switched on.'); return; }
     st.hidden = true; $('lead').hidden = false; $('ldList').innerHTML = ''; $('ldMsg').textContent = 'Fetching the flock…';
-    var me = curBirder(), pre = me && me.cloud ? cloudPush(false) : Promise.resolve();
+    var me = loadedBirder(), pre = me && me.cloud ? cloudPush(false) : Promise.resolve();
     pre.then(function(){ return cget('leader'); }).then(function(o){
       var rows = Object.keys(o || {}).map(function(k){ var r = o[k]; r.k = k; return r; }).sort(function(a, b){ return (b.score || 0) - (a.score || 0); }).slice(0, 50);
       $('ldMsg').textContent = rows.length ? '' : 'Nobody is on the Leaderbird yet. Be the first.';
