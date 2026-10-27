@@ -1,3 +1,5 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#efe2c6">
 <title>HOOT Adventure</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -328,6 +330,19 @@ body.titled{overflow:hidden}
 .ldlist .nm small{display:block;font-size:13px;opacity:.75;font-style:italic}
 .ldlist .sc{font-size:20px}
 
+#stLinkBox{display:flex;flex-direction:column;gap:8px}
+#stLinkBox[hidden]{display:none}
+#stLinkTxt{width:100%;box-sizing:border-box;font-size:14px;padding:10px;border:2px solid #2b2118;border-radius:4px;background:#f7efdc;color:#2b2118}
+.stb[hidden]{display:none}
+.cloud{display:block;white-space:nowrap;margin:4px 0 0}
+/* phone touch sizes */
+button.small{min-height:40px;padding:0 14px;font-size:14px;white-space:nowrap}
+#toTitle{margin-top:6px}
+input[type=range]{height:34px}
+input[type=range]::-webkit-slider-thumb{width:28px;height:28px}
+input[type=range]::-moz-range-thumb{width:28px;height:28px}
+.tabs button{min-height:44px;font-size:13px}
+
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -392,15 +407,15 @@ body.titled{overflow:hidden}
         <div class="strow"><button class="stb dark" id="stGo" type="submit">Create</button><button class="stb" id="stIn" type="button">Sign in</button></div>
         <p class="stnote" id="stNote"></p>
       </form>
+      <div id="stLinkBox" hidden>
+        <p class="stlabel">Your birder link</p>
+        <p class="stnote">Save this link. Opening it signs you straight back in on any phone, even if you forget your name or PIN. Anyone with the link can play as you.</p>
+        <input id="stLinkTxt" readonly aria-label="Your sign-in link">
+        <div class="strow"><button class="stb sm" id="stCopy" type="button">Copy link</button><button class="stb sm" id="stShare" type="button" hidden>Share</button></div>
+        <button class="stb dark" id="stStart" type="button" style="justify-content:center">Start birding</button>
+      </div>
       <button class="stb" id="stLead"><span>&#9733;</span>The Leaderbird</button>
-      <details class="sttools">
-        <summary>Birder tools</summary>
-        <p>A save code moves a birder to another phone or browser.</p>
-        <select id="stSel" aria-label="Choose a birder"></select>
-        <div class="strow"><button class="stb sm" id="stShow">Show save code</button><button class="stb sm" id="stDel">Remove from this phone</button><button class="stb sm" id="stUp">Save to cloud</button></div>
-        <textarea id="stCode" rows="3" placeholder="Save code appears here. Paste one here to load it." aria-label="Save code"></textarea>
-        <button class="stb sm" id="stLoad">Load code as new birder</button>
-      </details>
+      <button class="stb" id="stMyLink" hidden><span>&#128279;</span>Get my sign-in link</button>
       <p class="stmsg" id="stMsg" aria-live="polite"></p>
     </div>
   </div>
@@ -1456,7 +1471,7 @@ Object.assign(DEF_BIRDS, {
 /* ---------- ENGINE: rules store, clock, weather, territories, events, photos ---------- */
 var WORLD = 6400;
 var RULES = {}, TB = {};
-var DEV = /rules/.test(location.hash);
+var DEV = location.hash === '#rules';
 var RULES_KEY = 'hoot-adv-rules-v2';
 var BIRDERS_KEY = 'hoot-birders-v1';
 var BR = (function(){
@@ -3423,9 +3438,8 @@ if(cloudOn() && curBirder() && curBirder().cloud) setCloudState('saved');
       var p = peek(b), named = Object.keys(p.known || {}).length;
       return '<button class="stb' + (i === 0 ? ' dark' : '') + '" data-id="' + b.id + '"><span>' + (b.cloud ? '&#9729;' : '&#9654;') + '</span><b>' + esc(b.name) + '</b><em>' + named + ' named &middot; $' + (p.cash || 0) + '</em></button>';
     }).join('');
-    $('stSel').innerHTML = list.map(function(b){ return '<option value="' + b.id + '">' + esc(b.name) + '</option>'; }).join('');
-    $('stShow').disabled = $('stDel').disabled = $('stUp').disabled = !list.length;
-    $('stUp').hidden = !cloudOn();
+    var top = list.filter(function(b){ return b.cloud; })[0];
+    $('stMyLink').hidden = !top; $('stMyLink').dataset.id = top ? top.id : '';
     $('stPin').hidden = $('stIn').hidden = !cloudOn();
     note.textContent = cloudOn() ? 'Pick a name and a 4-digit PIN. The PIN lets you play on any phone.' : 'Cloud saves are not switched on yet, so this birder stays on this phone.';
   }
@@ -3483,12 +3497,11 @@ if(cloudOn() && curBirder() && curBirder().cloud) setCloudState('saved');
         var now = Date.now();
         return cput('birders/' + f.slug, { name:f.n, ph:h, updated:now, save:JSON.stringify({ birder:f.n }) })
           .then(function(){ return cput('leader/' + f.slug, { name:f.n, score:0, named:0, lv:1, ts:now }); })
-          .then(function(){ var b = addBirder(f.n, null, { cloud:true, slug:f.slug, synced:now }); if(b) enter(b, true); });
+          .then(function(){ var b = addBirder(f.n, null, { cloud:true, slug:f.slug, pin:f.pin, synced:now }); if(b) showLink(b); });
       });
     }).catch(function(){ say('Could not reach the cloud. Check your connection and try again.'); });
   });
-  $('stIn').addEventListener('click', function(){
-    var f = readForm(); if(!f) return;
+  function signIn(f){
     say('Signing in…');
     cget('birders/' + f.slug).then(function(r){
       if(!r){ say('No birder has that name. Tap Create to make one.'); return; }
@@ -3496,31 +3509,44 @@ if(cloudOn() && curBirder() && curBirder().cloud) setCloudState('saved');
         if(h !== r.ph){ say('Wrong PIN for ' + r.name + '.'); return; }
         var o; try{ o = JSON.parse(r.save); }catch(e){ o = { birder:r.name }; }
         var b = BR.list.filter(function(x){ return x.slug === f.slug; })[0];
-        if(b){ try{ localStorage.setItem(b.key, JSON.stringify(o)); }catch(e){} b.synced = r.updated; saveBirders(); enter(b, true); }
-        else { b = addBirder(r.name, o, { cloud:true, slug:f.slug, synced:r.updated }); if(b) enter(b, true); }
+        if(b){ try{ localStorage.setItem(b.key, JSON.stringify(o)); }catch(e){} b.synced = r.updated; b.pin = f.pin; saveBirders(); enter(b, true); }
+        else { b = addBirder(r.name, o, { cloud:true, slug:f.slug, pin:f.pin, synced:r.updated }); if(b) enter(b, true); }
       });
     }).catch(function(){ say('Could not reach the cloud. Check your connection and try again.'); });
-  });
+  }
+  $('stIn').addEventListener('click', function(){ var f = readForm(); if(f) signIn(f); });
 
-  $('stUp').addEventListener('click', function(){
-    var b = byId($('stSel').value); if(!b) return;
-    if(b.cloud){ say(b.name + ' is already in the cloud.'); return; }
-    var pin = prompt('Pick a 4-digit PIN for ' + b.name + ':');
-    if(pin === null) return;
-    if(!/^\d{4}$/.test(pin.trim())){ say('The PIN is four numbers, like 1234.'); return; }
-    var slug = slugOf(b.name);
-    if(b.key === SAVE_KEY) saveGame();
-    say('Saving to the cloud…');
-    cget('birders/' + slug + '/ph').then(function(ph){
-      if(ph){ say('That name is already taken in the cloud. Use Sign in with its PIN instead.'); return; }
-      return hashPin(slug, pin.trim()).then(function(h){
-        var now = Date.now(), p = peek(b);
-        return cput('birders/' + slug, { name:b.name, ph:h, updated:now, save:JSON.stringify(p) })
-          .then(function(){ var named = Object.keys(p.known || {}).length; return cput('leader/' + slug, { name:b.name, score:0, named:named, lv:1, ts:now }); })
-          .then(function(){ b.cloud = true; b.slug = slug; b.synced = now; saveBirders(); render(); say(b.name + ' is in the cloud. Sign in with the PIN on any phone.'); });
-      });
+  /* the personal link */
+  function linkFor(b){ return location.origin + location.pathname + '#in=' + encodeURIComponent(b.name) + '~' + b.pin; }
+  var linkBirder = null;
+  function showLink(b){
+    linkBirder = b; $('stForm').hidden = true; $('stLinkBox').hidden = false; $('stLinkTxt').value = linkFor(b);
+    $('stShare').hidden = !navigator.share; say('');
+  }
+  $('stMyLink').addEventListener('click', function(){
+    var b = byId($('stMyLink').dataset.id); if(!b) return;
+    if(b.pin){ showLink(b); return; }
+    var pin = prompt('Enter the 4-digit PIN for ' + b.name + ':'); if(pin === null) return; pin = pin.trim();
+    if(!/^\d{4}$/.test(pin)){ say('The PIN is four numbers, like 1234.'); return; }
+    Promise.all([hashPin(b.slug, pin), cget('birders/' + b.slug + '/ph')]).then(function(r){
+      if(r[0] !== r[1]){ say('That PIN is not right for ' + b.name + '.'); return; }
+      b.pin = pin; saveBirders(); showLink(b);
     }).catch(function(){ say('Could not reach the cloud. Try again in a bit.'); });
   });
+  $('stCopy').addEventListener('click', function(){
+    var t = $('stLinkTxt'); t.focus(); t.select(); t.setSelectionRange(0, 999);
+    var ok = false; try{ ok = document.execCommand('copy'); }catch(e){}
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(t.value).then(function(){ say('Link copied.'); }, function(){ say(ok ? 'Link copied.' : 'Press and hold the link to copy it.'); }); }
+    else say(ok ? 'Link copied.' : 'Press and hold the link to copy it.');
+  });
+  $('stShare').addEventListener('click', function(){ if(navigator.share && linkBirder) navigator.share({ title:'HOOT!', text:'My HOOT! birder link', url:linkFor(linkBirder) }).catch(function(){}); });
+  $('stStart').addEventListener('click', function(){ if(linkBirder) enter(linkBirder, true); });
+  /* opening a birder link signs in automatically */
+  var hm = location.hash.match(/^#in=([^~]+)~(\d{4})$/);
+  if(hm){
+    try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+    if(cloudOn()){ var nm = decodeURIComponent(hm[1]); signIn({ n:nm, pin:hm[2], slug:slugOf(nm) }); }
+  }
 
   $('toTitle').addEventListener('click', show);
 
@@ -3539,31 +3565,8 @@ if(cloudOn() && curBirder() && curBirder().cloud) setCloudState('saved');
   });
   $('ldClose').addEventListener('click', function(){ $('lead').hidden = true; st.hidden = false; render(); });
 
-  /* move-a-birder save codes (works with no cloud) */
-  $('stShow').addEventListener('click', function(){
-    var b = byId($('stSel').value); if(!b) return;
-    if(b.key === SAVE_KEY) saveGame();
-    $('stCode').value = 'HOOT1:' + btoa(unescape(encodeURIComponent(JSON.stringify({ n:b.name, s:peek(b) }))));
-    $('stCode').select(); say('Copy this whole code and keep it. Paste it under Birder tools on another phone.');
-  });
-  $('stLoad').addEventListener('click', function(){
-    var t = $('stCode').value.trim();
-    try{
-      if(t.indexOf('HOOT1:') !== 0) throw 0;
-      var o = JSON.parse(decodeURIComponent(escape(atob(t.slice(6)))));
-      if(!o || !o.s || !o.n) throw 0;
-      var name = String(o.n).slice(0, 14);
-      while(BR.list.some(function(b){ return b.name.toLowerCase() === name.toLowerCase(); })) name = name.slice(0, 12) + ' 2';
-      var b = addBirder(name, o.s); if(b){ $('stCode').value = ''; enter(b, true); }
-    }catch(e){ say('That code did not work. Paste the whole thing, starting with HOOT1:'); }
-  });
-  $('stDel').addEventListener('click', function(){
-    var b = byId($('stSel').value); if(!b) return;
-    if(!confirm('Remove ' + b.name + ' from this phone?' + (b.cloud ? ' Their cloud save stays safe; sign in with the PIN to bring them back.' : ' They have no cloud save, so this erases them for good.'))) return;
-    try{ localStorage.removeItem(b.key); }catch(e){}
-    BR.list = BR.list.filter(function(x){ return x.id !== b.id; }); if(BR.cur === b.id) BR.cur = null; saveBirders();
-    if(b.key === SAVE_KEY){ try{ sessionStorage.removeItem('hoot-skip-title'); }catch(e){} location.reload(); } else { render(); say(b.name + ' was removed from this phone.'); }
-  });
 })();
 
 </script>
+
+</html>
