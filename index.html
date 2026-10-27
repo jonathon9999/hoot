@@ -357,6 +357,31 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px}
 .kthumb:focus-visible::after{outline:3px solid var(--fg);outline-offset:3px}
 .knob.locked .kthumb::after{background:var(--lock)}
 
+/* species page */
+#spec{position:fixed;inset:0;z-index:190;background:#efe2c6;overflow:auto;display:flex;justify-content:center;color:#2b2118;font-family:'IM Fell English',Georgia,serif}
+#spec[hidden]{display:none}
+.spwrap{width:min(100%,520px);box-sizing:border-box;margin:10px;padding:12px 16px 28px;border:3px double #2b2118;align-self:flex-start;background:#efe2c6}
+.spclose{margin-left:auto;display:flex;min-width:96px;justify-content:center}
+.spl{margin:8px 0 0;text-align:center;letter-spacing:4px;font-size:14px;text-transform:uppercase}
+.spname{margin:4px 0 0;text-align:center;font-weight:400;font-size:clamp(28px,8vw,38px);line-height:1.1}
+.splat{margin:2px 0 0;text-align:center;font-style:italic;font-size:20px}
+.spart{position:relative;width:min(70%,260px);aspect-ratio:1;margin:10px auto;background:#f7efdc;border:2px solid #2b2118;border-radius:4px}
+.spart svg{width:100%;height:100%;display:block}
+.spartp{position:absolute;inset:0}
+.spartp svg{width:100%;height:100%}
+.spq{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:90px;opacity:.35}
+.spmeta{margin:0;text-align:center;font-size:17px}
+.spdl{margin:14px 0 0;border-top:2px solid #2b2118}
+.spdl dt{margin:0;padding-top:10px;font-size:13px;letter-spacing:3px;text-transform:uppercase;opacity:.75}
+.spdl dd{margin:2px 0 0;padding-bottom:10px;border-bottom:1px solid rgba(43,33,24,.4);font-size:18px;line-height:1.35}
+.sphear{display:inline-flex;margin-left:8px;min-height:36px;padding:0 14px;vertical-align:middle}
+.spnote{margin:14px 0;text-align:center;font-style:italic;font-size:18px}
+.sph{margin:18px 0 8px;font-weight:400;font-size:22px}
+#spec .photos{display:flex;flex-direction:column;gap:10px}
+#spec .photo,#spec .pinfo{color:#2b2118}
+#spec .pinfo span{display:block;font-size:14px}
+#spec .spname,#spec h3{color:#2b2118;font-family:inherit;text-transform:none}
+
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -434,6 +459,8 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px}
     </div>
   </div>
 </div>
+
+<div id="spec" hidden role="dialog" aria-modal="true" aria-label="Species page"><div class="spwrap" id="specBody"></div></div>
 
 <div id="lead" hidden role="dialog" aria-modal="true" aria-label="The Leaderbird">
   <div class="stframe">
@@ -2969,6 +2996,91 @@ function buildWorldFor(loc){
   if(loc === 'marsh') buildMarsh(); else if(loc === 'park') buildPark(); else { buildWorld(); WORLD_LOC = 'forest'; }
 }
 
+/* ---------- field-guide species accounts (shown when you open a named bird in the Album) ---------- */
+var NOTES = {
+  puddlewing:{ look:'Brown, round, and perpetually annoyed. The eyebrow does most of the work.', habits:'Scolds puddles, then bathes in them. Holds a grudge against whoever stepped in the last one.', note:'Do not ask it about the puddle.' },
+  dingus:{ look:'A pine-green beach ball with a punk-red crest and legs added as an afterthought.', habits:'Eats constantly and flies only under protest. Bonks into windows, then acts like it meant to.', note:'Listed weight: plenty.' },
+  hootle:{ look:'Huge round eyes, tufted ears, and the stare of someone who saw what you did.', habits:'Sleeps all day, hunts all night, comments at all hours.', note:'Usually calls at 3 AM, directly outside your tent.' },
+  jay:{ look:'Sleek blue bandit with a stolen sock dangling from its beak.', habits:'Collects shiny things, snacks and single socks. Nobody knows what it does with the socks.', note:'Count your sandwiches after any sighting.' },
+  sasquawk:{ look:'Shaggy, enormous feet, blurry in every photo it has ever been in.', habits:'Appears at dawn and dusk, denies everything, leaves large tracks. Most sightings are disputed.', note:'If you got a clear photo, you are either lucky or lying.' },
+  coot:{ look:'Round black bird with a white shield on its forehead and a face like a damp sock.', habits:'Splashes around loudly, arguing with other coots about nothing in particular.', note:'The feet are the real attraction. Look at those feet.' },
+  rail:{ look:'Stripy, narrow, and always wet from the knees down.', habits:'Skulks through the reeds. Heard far more often than seen, which suits it fine.', note:'Has never once been dry.' },
+  quack:{ look:'A duck in a clerical collar with a look of deep disapproval.', habits:'Floats around preaching to the other ducks. Passes the bread plate.', note:'Do not mention the bread tax.' },
+  bittern:{ look:'Streaky brown wader that freezes with its beak pointed at the sky, wrapped in a faint haze.', habits:'Stands motionless in the reeds at dusk and booms. The haze is not a metaphor.', note:'You will smell it before you see it.' },
+  stiltwick:{ look:'Tall, impossibly blue, standing on legs like a pair of garden stakes.', habits:'Fishes alone at dawn and dusk and shows itself only to those who have earned it.', note:'A legend among birders, mostly because nobody believes the first photo.' },
+  pigeon:{ look:'Gray pigeon wearing a hot dog like a hat. Or a helmet, depending on who you ask.', habits:'Patrols the cart area and strikes the moment anyone looks away from their lunch.', note:'Has never paid for a bun and never will.' },
+  starling:{ look:'Glossy starling in tiny sunglasses.', habits:'Hangs around café patios, copying car alarms and winking at pretzels.', note:'Does not take the sunglasses off, even at night.' },
+  crow:{ look:'Black as a trash bag and dressed for the occasion in a bow tie.', habits:'Runs the dumpsters, sells information, takes payment in fries.', note:'Remembers faces. Remembers yours.' },
+  duchess:{ look:'Slim and dramatic, with plumage that arrives before she does.', habits:'Poses on statues and fountain edges for an audience that is not there.', note:'Will be photographed in her good light, not yours.' },
+  gary:{ look:'A gull the size of a toddler, wearing shades and carrying fries he did not pay for.', habits:'Appears at lunch, steals lunch, leaves.', note:'Banned from three hot dog carts. Not sorry.' },
+  nuthatch:{ look:'Slate blue, upside down, and perpetually let down.', habits:'Walks down tree trunks head first, sighing. Wedges seeds in the bark and forgets them.', note:'Reviews your birding as "fine".' },
+  chickadee:{ look:'Tiny, gray, and so angry. Black cap pulled low over its eyes.', habits:'Yells at hawks, owls and you. Zero fear, zero size.', note:'Everyone it is mad at is much bigger.' },
+  mopey:{ look:'Soft brown dove with droopy eyes and a droopy everything else.', habits:'Sits on a branch at dawn and dusk and moans about it.', note:'Cheer one up and you earn a medal. Nobody has.' },
+  wren:{ look:'Rusty little thing clutching a coffee cup, with a long beak and a twitch.', habits:'Never stops moving, never stops singing, never sleeps. Runs on espresso and nectar.', note:'Do not offer it decaf.' },
+  woodpecker:{ look:'Striped, red-capped, and drilling every tree like it is installing shelves.', habits:'Hammers dead trees and, when it can, deck rails. Wanders off mid-job.', note:'Sold as genuine. It is not.' },
+  thrush:{ look:'Slim, spotted, and wearing a collar like she owns the manor.', habits:'Sings from the high branches at dawn and dusk and expects applause. Does not mingle.', note:'Address her as Dame Thrushington. She will notice.' },
+  grouse:{ look:'Round, bow-tied, and puffed up like he is about to propose.', habits:'Stands on a log and drums his wings into a roll. The ladies are mostly unimpressed.', note:'Count Drumsworth is, in his own words, between engagements.' },
+  wiggler:{ look:'Little marsh wren with its tail pointed up and a rear end that never stops wiggling.', habits:'Builds a dozen decoy nests and sleeps in none. Bounces on cattail stalks.', note:'Not hiding. Just always mid-shimmy.' },
+  grumbler:{ look:'Black with red shoulder patches and a mood.', habits:'Perches on the tallest cattail and complains about the neighbors. Defends its patch against everything.', note:'Seems upset. Is upset.' },
+  steve:{ look:'Small plain shorebird in a scarf. His name is Steve.', habits:'Bobs along the mud edge poking things. Cannot be talked into trying other places.', note:'Steve is fine. Steve says he is fine.' },
+  honk:{ look:'Big goose with a crown balanced on a very serious neck.', habits:'Guards the water, stops foot traffic and honks at the unworthy, which is everyone.', note:'Do not make eye contact.' },
+  kingfisher:{ look:'Shaggy-crested blue dude with a fish at all times.', habits:'Hovers over the water, dive-bombs it, then chills on a branch with the catch.', note:'Has lived on the same branch for years. It is his branch.' },
+  spoonbill:{ look:'Pink, flamboyant, with a beak built like a serving spoon.', habits:'Sweeps her beak through shallow water like an overworked line cook, and poses while doing it.', note:'Fabulous. Do not tell her you saw her first.' },
+  crumb:{ look:'Brown sparrow with a permanent crumb on its beak.', habits:'Haunts benches and café tables. Brings fourteen friends for every sandwich.', note:'Has never paid for lunch.' },
+  robin:{ look:'Orange vest, cheerful face, sitting on a bench that is not his.', habits:'Hops across lawns tilting its head at worms, then takes a break on the best bench.', note:'Always the best bench.' },
+  finch:{ look:'Raspberry-flushed finch carrying half a pretzel.', habits:'Eats nonstop, flies off with the whole pretzel, returns for another.', note:'Salt level: high.' },
+  jogger:{ look:'Slim gray mockingbird in a sweatband and visible resolve.', habits:'Laps the park at dawn and dusk copying car alarms, doorbells and your phone.', note:'Pace: unreasonable.' },
+  parakeet:{ look:'Lime green, loud, and wildly out of place.', habits:'Escaped, found a flock of friends and refuses to go home. Screams about it all day.', note:'Not native. Not leaving.' },
+  barnowl:{ look:'Heart-shaped white face, ghostly, lives in a clock tower.', habits:'Flies silently, hunts at night and keeps time by the chimes.', note:'Tick, tock. It is late.' }
+};
+var RARITY_LINE = { Common:'Easy to hear almost anywhere in its range.', Uncommon:'Takes a little patience and the right hour.', Rare:'Hard to find. Call well and be there at the right time.', Legendary:'Almost nobody gets one. Everybody claims they did.' };
+function hrFmt(h){
+  var hh = Math.floor(h) % 24, mm = Math.round((h - Math.floor(h)) * 60), ap = hh >= 12 ? 'PM' : 'AM', h12 = hh % 12 === 0 ? 12 : hh % 12;
+  return h12 + (mm ? ':' + (mm < 10 ? '0' : '') + mm : '') + ' ' + ap;
+}
+function hoursLine(spec){
+  return String(spec).split(',').map(function(seg){
+    var p = seg.trim().split('-'); if(p.length < 2) return '';
+    var a = parseFloat(p[0]), b = parseFloat(p[1]);
+    if(a === 0 && b >= 24) return 'any hour';
+    return hrFmt(a) + ' to ' + hrFmt(b);
+  }).filter(Boolean).join(', and ');
+}
+function openSpecies(id){
+  var b = birdById(id); if(!b) return;
+  var L = locById(b.loc), known = !!SAVE.known[id], ph = SAVE.photos.filter(function(p){ return p.bird === id; }).sort(function(a, c){ return c.q - a.q; }), best = ph[0];
+  var n = NOTES[id] || { look:'', habits:'', note:'' }, tb = TB.birds[id] || {};
+  var lm = null, ld = 1e9;
+  TB.lm.forEach(function(l){ if((l.loc || 'forest') !== b.loc) return; var d = Math.abs(dxTo(l.x, tb.anchor || 0)); if(d < ld){ ld = d; lm = l; } });
+  var idx = ROSTER.indexOf(b) + 1, h = '';
+  h += '<button class="stb sm spclose" id="specClose" type="button">Close</button>';
+  h += '<p class="spl">Plate ' + idx + ' &middot; ' + esc(L.name) + '</p>';
+  if(!known){
+    h += '<h2 class="spname">' + (ph.length ? 'Mystery bird' : 'Not photographed yet') + '</h2>';
+    h += '<div class="spart"><svg viewBox="0 0 200 200" style="' + birdVars(b.colors) + '">' + (best ? '' : '') + '</svg>' + (best ? '<div class="spartp">' + partialView(b, best.eff, best.id) + '</div>' : '<div class="spq">?</div>') + '</div>';
+    h += '<p class="spnote">' + (ph.length ? 'You only caught a partial view. Match its call a little closer to learn its name and fill in this page.' : 'Somewhere in ' + esc(L.name) + ' there is a bird you have not heard yet. Keep walking and listening.') + '</p>';
+  } else {
+    h += '<h2 class="spname">' + esc(b.name) + '</h2><p class="splat">' + esc(b.latin) + '</p>';
+    h += '<div class="spart"><svg viewBox="0 0 200 200" style="' + birdVars(b.colors) + '">' + birdArt(b) + '</svg></div>';
+    h += '<p class="spmeta">' + b.rarity + ' &middot; ' + b.pts + ' pts' + (best ? ' &middot; ' + starHtml(best.q) : '') + '</p>';
+    h += '<dl class="spdl">' +
+      '<dt>Field marks</dt><dd>' + esc(n.look) + '</dd>' +
+      '<dt>Voice</dt><dd>&ldquo;' + esc(b.say) + '&rdquo; <button class="stb sm sphear" id="specHear" type="button">Hear it</button></dd>' +
+      '<dt>Habits</dt><dd>' + esc(n.habits) + '</dd>' +
+      '<dt>Where</dt><dd>' + esc(L.name) + (lm ? ', usually around ' + esc(lm.name) : '') + '. Its spot moves a little every few hours.</dd>' +
+      '<dt>When</dt><dd>Calls at ' + esc(hoursLine(tb.hours || '0-24')) + '.</dd>' +
+      '<dt>How rare</dt><dd>' + b.rarity + '. ' + RARITY_LINE[b.rarity] + '</dd>' +
+      '<dt>Your sightings</dt><dd>' + (ph.length ? ph.length + ' photo' + (ph.length === 1 ? '' : 's') + '. First seen Day ' + ph.slice().sort(function(a, c){ return a.T - c.T; })[0].day + ' near ' + esc(ph[0].lm) + '.' : 'None yet.') + '</dd>' +
+      '</dl>';
+    h += '<p class="spnote">Birder&rsquo;s note: ' + esc(n.note) + '</p>';
+  }
+  if(ph.length) h += '<h3 class="sph">Your photos</h3><div class="photos">' + ph.map(photoHtml).join('') + '</div>';
+  var el = $('spec'); $('specBody').innerHTML = h; el.hidden = false; document.body.classList.add('titled'); el.scrollTop = 0;
+  $('specClose').focus();
+  var hb = $('specHear'); if(hb) hb.addEventListener('click', function(){ playBirdVia(b, 40, 0); });
+}
+function closeSpecies(){ $('spec').hidden = true; document.body.classList.remove('titled'); }
+
 /* ---------- UI ---------- */
 function $(id){ return document.getElementById(id); }
 function r1(n){ return Math.round(n * 10) / 10; }
@@ -3241,10 +3353,6 @@ function buildAlbum(){
   });
   html += '</div>';
   });
-  if(albSel){
-    var list = SAVE.photos.filter(function(p){ return p.bird === albSel; }).sort(function(a, c){ return c.q - a.q; });
-    html += '<div class="card"><h3>Photos</h3><div class="photos">' + (list.length ? list.map(photoHtml).join('') : '<p class="muted">No photos of this one yet.</p>') + '</div></div>';
-  }
   var nk = TB.noises.filter(function(n){ return SAVE.noises[n.id]; }).map(function(n){ return esc(n.name); });
   html += '<div class="card"><h3>Not birds</h3><p class="muted">' + (nk.length ? nk.join(' · ') : 'Nothing figured out yet. Some sounds out there are not birds at all.') + '</p></div>';
   host.innerHTML = html;
@@ -3407,7 +3515,7 @@ document.body.insertAdjacentHTML('afterbegin', '<svg width="0" height="0" style=
 /* ---------- start ---------- */
 $('album').addEventListener('click', function(e){
   var b = e.target.closest('.dcard'); if(!b) return;
-  albSel = albSel === b.dataset.b ? null : b.dataset.b; buildAlbum();
+  openSpecies(b.dataset.b);
 });
 loadRules(); loadGame(); if(!SAVE.char){ SAVE.char = defaultChar(); } saveGame();
 buildHeadOut(); wire(); wireRulebook(); wireChar(); wireShop(); refresh();
@@ -3604,6 +3712,9 @@ if(cloudOn() && curBirder() && curBirder().cloud) setCloudState('saved');
   $('ldClose').addEventListener('click', function(){ $('lead').hidden = true; st.hidden = false; render(); });
 
 })();
+
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !$('spec').hidden) closeSpecies(); });
+$('spec').addEventListener('click', function(e){ if(e.target.id === 'specClose' || e.target.id === 'spec') closeSpecies(); });
 
 </script>
 
